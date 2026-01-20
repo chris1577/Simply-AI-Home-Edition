@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - simply AI</title>
+    <link rel="icon" href="static/images/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="/static/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="/static/images/simply_AI_white.png" alt="Simply AI Logo" class="auth-logo">
+                <h1>Create Account</h1>
+                <p>Register your account to get started.</p>
+            </div>
+
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i> Username
+                    </label>
+                    <input type="text" id="username" name="username" required
+                           placeholder="Choose a username" autocomplete="username"
+                           minlength="3" maxlength="80">
+                    <small class="form-help">3-80 characters, letters, numbers, underscores and hyphens only</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input type="email" id="email" name="email" required
+                           placeholder="your.email@example.com" autocomplete="email"
+                           maxlength="120">
+                </div>
+
+                <div class="form-group">
+                    <label for="date-of-birth">
+                        <i class="fas fa-calendar-alt"></i> Date of Birth
+                    </label>
+                    <input type="date" id="date-of-birth" name="date_of_birth" required
+                           autocomplete="bday">
+                    <small class="form-help">Required for child safety features</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Password
+                        <button type="button" class="password-info-btn" id="password-info-btn" aria-label="Password requirements">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                    </label>
+                    <input type="password" id="password" name="password" required
+                           placeholder="Create a strong password" autocomplete="new-password"
+                           minlength="8">
+                    <div class="password-requirements-popup" id="password-requirements">
+                        <div class="popup-arrow"></div>
+                        <p><strong>Password must contain:</strong></p>
+                        <ul>
+                            <li id="req-length"><i class="fas fa-circle"></i> At least 8 characters</li>
+                            <li id="req-uppercase"><i class="fas fa-circle"></i> One uppercase letter</li>
+                            <li id="req-lowercase"><i class="fas fa-circle"></i> One lowercase letter</li>
+                            <li id="req-number"><i class="fas fa-circle"></i> One number</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password-confirm">
+                        <i class="fas fa-lock"></i> Confirm Password
+                    </label>
+                    <input type="password" id="password-confirm" name="password_confirm" required
+                           placeholder="Re-enter your password" autocomplete="new-password">
+                </div>
+
+                <div id="error-message" class="error-message" style="display: none;"></div>
+                <div id="success-message" class="success-message" style="display: none;"></div>
+
+                <button type="submit" class="btn-primary" id="register-btn">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+
+                <div class="auth-links">
+                    <span>Already have an account?</span>
+                    <a href="/auth/login">Sign in</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/js/register.js"></script>
+</body>
+</html>

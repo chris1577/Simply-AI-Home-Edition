@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - simply AI</title>
+    <link rel="icon" href="/static/images/favicon.png" type="image/png" />
+    <!-- Only load auth.css for settings page to avoid conflicts -->
+    <link rel="stylesheet" href="/static/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="profile-page-body">
+    <!-- Top Navigation Bar -->
+    <div class="profile-top-nav">
+        <div class="profile-top-nav-content">
+            <h2 class="profile-page-title">
+                <i class="fas fa-cog"></i>
+                Settings
+            </h2>
+            <button id="back-to-chat-btn-top" class="btn-secondary btn-sm profile-back-btn">
+                <i class="fas fa-comments"></i> Back to Chat
+            </button>
+        </div>
+    </div>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fas fa-cog"></i>
+            </div>
+            <h1>Application Settings</h1>
+            <p style="color: #64748b; font-size: 16px; margin: 8px 0 0 0;">Configure your preferences and application settings</p>
+        </div>
+
+        <div class="profile-sections">
+            <!-- General Settings -->
+            <div class="profile-section">
+                <h2><i class="fas fa-sliders"></i> General Settings</h2>
+                <p style="color: #718096; font-size: 13px; margin-bottom: 16px;">
+                    Customize your experience with theme preferences and chat behavior options.
+                </p>
+
+                <div class="form-group">
+                    <label for="theme-select">Theme</label>
+                    <select id="theme-select" class="config-input">
+                        <option value="light">Light Mode</option>
+                        <option value="dark">Dark Mode</option>
+                    </select>
+                    <small class="form-help">Choose your preferred color scheme for the application</small>
+                </div>
+
+                <div class="toggle-setting" style="margin-top: 24px; padding: 16px; background: var(--profile-section-bg); border-radius: 8px; border: 1px solid var(--profile-border);">
+                    <div class="toggle-setting-info">
+                        <span class="toggle-setting-title">Start with New Chat</span>
+                        <span class="toggle-setting-description">Always begin with a fresh chat session when opening the app or refreshing the page.</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="start-fresh-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div id="general-settings-success" class="success-message" style="display: none; margin-top: 16px;">Settings saved successfully!</div>
+            </div>
+
+            <!-- Admin Settings (only visible to super_admin) -->
+            <div id="admin-settings-section" class="profile-section" style="display: none;">
+                <h2><i class="fas fa-shield-halved"></i> Admin Settings</h2>
+                <p style="color: #718096; font-size: 13px; margin-bottom: 16px;">
+                    Configure system-wide settings and manage AI model availability (Super Admin Only).
+                </p>
+
+                <!-- Security Settings -->
+                <div style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
+                    <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 16px 0; color: var(--profile-text-primary);">
+                        <i class="fas fa-shield-halved" style="color: #1e40af; margin-right: 10px;"></i>
+                        Security Settings
+                    </h3>
+
+                    <div class="toggle-setting" style="padding: 16px; background: var(--profile-input-bg); border-radius: 8px; border: 1px solid var(--profile-border-light);">
+                        <div class="toggle-setting-info">
+                            <span class="toggle-setting-title">
+                                <i class="fas fa-eye-slash"></i> Filter Sensitive Information
+                            </span>
+                            <span class="toggle-setting-description">
+                                Automatically detect and redact sensitive data from user messages (API keys, passwords, credit cards, etc.)
+                            </span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="sensitive-info-filter-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Context Management Settings -->
+                <div style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
+                    <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--profile-text-primary);">
+                        <i class="fas fa-compress-alt" style="color: #7c3aed; margin-right: 10px;"></i>
+                        Context Management
+                    </h3>
+                    <p style="font-size: 13px; color: var(--profile-text-secondary); margin: 0 0 16px 0;">
+                        Manage how conversation context is handled for longer chats.
+                    </p>
+
+                    <div class="toggle-setting" style="padding: 16px; background: var(--profile-input-bg); border-radius: 8px; border: 1px solid var(--profile-border-light);">
+                        <div class="toggle-setting-info">
+                            <span class="toggle-setting-title">
+                                <i class="fas fa-compress"></i> Distilled Context
+                            </span>
+                            <span class="toggle-setting-description">
+                                Automatically summarize messages to enable longer conversations. The AI will use condensed summaries as context while users still see full messages. This reduces token usage for context but adds an extra API call per exchange.
+                            </span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="distilled-context-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div id="distilled-context-error" class="error-message" style="display: none; margin-top: 12px;"></div>
+                    <div id="distilled-context-success" class="success-message" style="display: none; margin-top: 12px;"></div>
+                </div>
+
+                <!-- Rate Limits Settings -->
+                <div style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
+                    <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--profile-text-primary);">
+                        <i class="fas fa-tachometer-alt" style="color: #1e40af; margin-right: 10px;"></i>
+                        Rate Limits
+                    </h3>
+                    <p style="font-size: 13px; color: var(--profile-text-secondary); margin: 0 0 16px 0;">
+                        Configure request rate limits to prevent abuse. Changes take effect immediately for new requests.
+                    </p>
+
+                    <div class="toggle-setting" style="padding: 16px; background: var(--profile-input-bg); border-radius: 8px; border: 1px solid var(--profile-border-light); margin-bottom: 16px;">
+                        <div class="toggle-setting-info">
+                            <span class="toggle-setting-title">
+                                <i class="fas fa-shield-alt"></i> Enable Rate Limiting
+                            </span>
+                            <span class="toggle-setting-description">
+                                When disabled, all rate limits are bypassed. Enable to protect against abuse.
+                            </span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="rate-limit-enabled-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div id="rate-limit-fields" style="display: block;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <!-- Chat Rate Limit -->
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label for="rate-limit-chat" style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-comments" style="color: #3b82f6;"></i>
+                                    Chat Requests
+                                </label>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="number" id="rate-limit-chat" min="1" max="10000" value="100" style="flex: 1;">
+                                    <span style="color: var(--profile-text-secondary); font-size: 12px; white-space: nowrap;">/ hour</span>
+                                </div>
+                                <small class="form-help">Maximum chat messages per hour</small>
+                            </div>
+
+                            <!-- Attachment Upload Rate Limit -->
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label for="rate-limit-attachment" style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-paperclip" style="color: #8b5cf6;"></i>
+                                    Attachment Uploads
+                                </label>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="number" id="rate-limit-attachment" min="1" max="10000" value="50" style="flex: 1;">
+                                    <span style="color: var(--profile-text-secondary); font-size: 12px; white-space: nowrap;">/ hour</span>
+                                </div>
+                                <small class="form-help">Maximum file attachments per hour</small>
+                            </div>
+
+                            <!-- Document Upload Rate Limit -->
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label for="rate-limit-document" style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-file-alt" style="color: #10b981;"></i>
+                                    RAG Document Uploads
+                                </label>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="number" id="rate-limit-document" min="1" max="10000" value="20" style="flex: 1;">
+                                    <span style="color: var(--profile-text-secondary); font-size: 12px; white-space: nowrap;">/ hour</span>
+                                </div>
+                                <small class="form-help">Maximum RAG documents per hour</small>
+                            </div>
+
+                            <!-- Prompt Improvement Rate Limit -->
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label for="rate-limit-improve-prompt" style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-magic" style="color: #f59e0b;"></i>
+                                    Prompt Improvements
+                                </label>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="number" id="rate-limit-improve-prompt" min="1" max="10000" value="30" style="flex: 1;">
+                                    <span style="color: var(--profile-text-secondary); font-size: 12px; white-space: nowrap;">/ hour</span>
+                                </div>
+                                <small class="form-help">Maximum prompt enhancements per hour</small>
+                            </div>
+
+                            <!-- Login Rate Limit -->
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label for="rate-limit-login" style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-sign-in-alt" style="color: #ef4444;"></i>
+                                    Login Attempts
+                                </label>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="number" id="rate-limit-login" min="1" max="10000" value="10" style="flex: 1;">
+                                    <span style="color: var(--profile-text-secondary); font-size: 12px; white-space: nowrap;">/ minute</span>
+                                </div>
+                                <small class="form-help">Maximum login attempts per minute</small>
+                            </div>
+
+                            <!-- Registration Rate Limit -->
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label for="rate-limit-register" style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-user-plus" style="color: #06b6d4;"></i>
+                                    Registrations
+                                </label>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="number" id="rate-limit-register" min="1" max="10000" value="5" style="flex: 1;">
+                                    <span style="color: var(--profile-text-secondary); font-size: 12px; white-space: nowrap;">/ hour</span>
+                                </div>
+                                <small class="form-help">Maximum registrations per hour</small>
+                            </div>
+
+                            <!-- 2FA Rate Limit -->
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label for="rate-limit-2fa" style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-key" style="color: #ec4899;"></i>
+                                    2FA Verifications
+                                </label>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="number" id="rate-limit-2fa" min="1" max="10000" value="10" style="flex: 1;">
+                                    <span style="color: var(--profile-text-secondary); font-size: 12px; white-space: nowrap;">/ minute</span>
+                                </div>
+                                <small class="form-help">Maximum 2FA attempts per minute</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="rate-limits-error" class="error-message" style="display: none;"></div>
+                    <div id="rate-limits-success" class="success-message" style="display: none;"></div>
+
+                    <button type="button" id="save-rate-limits-btn" class="btn-primary btn-sm" style="width: 100%; margin-top: 8px;">
+                        <i class="fas fa-save"></i> Save Rate Limits
+                    </button>
+                </div>
+
+                <!-- Child Safety Settings -->
+                <div class="profile-section" style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
+                    <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--profile-text-primary);">
+                        <i class="fas fa-child" style="color: #dc2626; margin-right: 10px;"></i>
+                        Child Safety Settings
+                    </h3>
+                    <p style="font-size: 13px; color: var(--profile-text-secondary); margin: 0 0 16px 0;">
+                        Configure age-based content guardrails. System prompts are automatically applied based on user's date of birth.
+                    </p>
+
+                    <div class="toggle-setting" style="padding: 16px; background: var(--profile-input-bg); border-radius: 8px; border: 1px solid var(--profile-border-light); margin-bottom: 16px;">
+                        <div class="toggle-setting-info">
+                            <span class="toggle-setting-title">
+                                <i class="fas fa-shield-alt"></i> Enable Child Safety Prompts
+                            </span>
+                            <span class="toggle-setting-description">
+                                Apply age-appropriate system prompts for users under 18 years old
+                            </span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="child-safety-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="child-system-prompt" style="display: flex; align-items: center; gap: 8px;">
+                            <span class="badge badge-child" style="font-size: 10px;"><i class="fas fa-child"></i> Child</span>
+                            System Prompt (Under 12)
+                        </label>
+                        <div style="position: relative;">
+                            <textarea id="child-system-prompt" rows="6" placeholder="System prompt for users under 12 years old..."></textarea>
+                            <button type="button" id="child-prompt-default-btn" class="btn-use-default" title="Reset to default prompt">
+                                <i class="fas fa-undo"></i> Use Default
+                            </button>
+                        </div>
+                        <small class="form-help">This prompt is prepended to all conversations for child users</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teen-system-prompt" style="display: flex; align-items: center; gap: 8px;">
+                            <span class="badge badge-teen" style="font-size: 10px;"><i class="fas fa-user-graduate"></i> Teen</span>
+                            System Prompt (12-17)
+                        </label>
+                        <div style="position: relative;">
+                            <textarea id="teen-system-prompt" rows="6" placeholder="System prompt for users aged 12-17..."></textarea>
+                            <button type="button" id="teen-prompt-default-btn" class="btn-use-default" title="Reset to default prompt">
+                                <i class="fas fa-undo"></i> Use Default
+                            </button>
+                        </div>
+                        <small class="form-help">This prompt is prepended to all conversations for teen users</small>
+                    </div>
+
+                    <div id="child-safety-error" class="error-message" style="display: none;"></div>
+                    <div id="child-safety-success" class="success-message" style="display: none;"></div>
+
+                    <button type="button" id="save-child-safety-btn" class="btn-primary btn-sm" style="width: 100%;">
+                        <i class="fas fa-save"></i> Save Child Safety Settings
+                    </button>
+                </div>
+
+                <!-- Model Visibility -->
+                <div style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
+                    <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--profile-text-primary);">
+                        <i class="fas fa-microchip" style="color: #1e40af; margin-right: 10px;"></i>
+                        Model Visibility
+                    </h3>
+                    <p style="font-size: 13px; color: var(--profile-text-secondary); margin: 0 0 16px 0;">
+                        Toggle models on/off to control which AI providers are available to users
+                    </p>
+
+                    <div id="admin-models-list" class="admin-models-container">
+                        <!-- Models will be populated dynamically via JavaScript -->
+                        <div class="admin-loading" style="text-align: center; padding: 20px; color: var(--profile-text-tertiary);">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span style="margin-left: 8px;">Loading models...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System API Keys & Model ID's -->
+                <div style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
+                    <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--profile-text-primary);">
+                        <i class="fas fa-key" style="color: #1e40af; margin-right: 10px;"></i>
+                        System API Keys & Model ID's
+                    </h3>
+                    <p style="font-size: 13px; color: var(--profile-text-secondary); margin: 0 0 16px 0;">
+                        Configure system-wide AI provider API keys and model selections. These keys are shared by all users. API keys are stored encrypted in the database.
+                    </p>
+
+                    <form id="api-keys-form" class="auth-form">
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/google.png" alt="Google Gemini" class="provider-icon" style="width: 20px; height: 20px;">
+                                <span>Google Gemini</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="gemini-api-key">API Key</label>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="password" id="gemini-api-key" placeholder="Enter your Gemini API key" style="flex: 1;">
+                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="gemini" style="display: none; padding: 6px 10px; font-size: 12px;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <small class="form-help">Get your key from <a href="https://makersuite.google.com/app/apikey" target="_blank" style="color: #3b82f6;">Google AI Studio</a></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="gemini-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="gemini-model-id-select" class="model-id-select" data-provider="gemini">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="gemini-model-id" class="model-id-input" placeholder="e.g., gemini-2.5-flash" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="gemini" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="gemini-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/chatgpt.png" alt="OpenAI" class="provider-icon" style="width: 20px; height: 20px;">
+                                <span>OpenAI ChatGPT</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="openai-api-key">API Key</label>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="password" id="openai-api-key" placeholder="Enter your OpenAI API key" style="flex: 1;">
+                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="openai" style="display: none; padding: 6px 10px; font-size: 12px;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <small class="form-help">Get your key from <a href="https://platform.openai.com/api-keys" target="_blank" style="color: #3b82f6;">OpenAI Platform</a></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="openai-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="openai-model-id-select" class="model-id-select" data-provider="openai">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="openai-model-id" class="model-id-input" placeholder="e.g., gpt-5-mini-latest" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="openai" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="openai-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/anthropic.png" alt="Anthropic" class="provider-icon" style="width: 20px; height: 20px;">
+                                <span>Anthropic Claude</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="anthropic-api-key">API Key</label>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="password" id="anthropic-api-key" placeholder="Enter your Anthropic API key" style="flex: 1;">
+                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="anthropic" style="display: none; padding: 6px 10px; font-size: 12px;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <small class="form-help">Get your key from <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color: #3b82f6;">Anthropic Console</a></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="anthropic-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="anthropic-model-id-select" class="model-id-select" data-provider="anthropic">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="anthropic-model-id" class="model-id-input" placeholder="e.g., claude-3-5-haiku-latest" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="anthropic" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="anthropic-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/xai.png" alt="xAI" class="provider-icon" style="width: 20px; height: 20px;">
+                                <span>xAI Grok</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="xai-api-key">API Key</label>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="password" id="xai-api-key" placeholder="Enter your xAI API key" style="flex: 1;">
+                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="xai" style="display: none; padding: 6px 10px; font-size: 12px;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <small class="form-help">Get your key from <a href="https://console.x.ai/" target="_blank" style="color: #3b82f6;">xAI Console</a></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="xai-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="xai-model-id-select" class="model-id-select" data-provider="xai">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="xai-model-id" class="model-id-input" placeholder="e.g., grok-4-1-fast-non-reasoning-latest" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="xai" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="xai-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div id="api-keys-error" class="error-message" style="display: none;"></div>
+                        <div id="api-keys-success" class="success-message" style="display: none;"></div>
+
+                        <button type="submit" class="btn-primary btn-sm" style="width: 100%; margin-bottom: 12px;">
+                            <i class="fas fa-save"></i> Save API Keys & Model ID's
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Local URL's & Model ID's -->
+                <div style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
+                    <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--profile-text-primary);">
+                        <i class="fas fa-server" style="color: #1e40af; margin-right: 10px;"></i>
+                        Local URL's & Model ID's
+                    </h3>
+                    <p style="font-size: 13px; color: var(--profile-text-secondary); margin: 0 0 16px 0;">
+                        Configure connection settings for local AI models (LM Studio and Ollama).
+                    </p>
+
+                    <form id="local-models-form" class="auth-form">
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/lms.png" alt="LM Studio" class="provider-icon" style="width: 20px; height: 20px;">
+                                <span>LM Studio</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="lm-studio-url">Server URL</label>
+                                <input type="text" id="lm-studio-url" placeholder="http://localhost:1234/v1/chat/completions">
+                                <small class="form-help">The URL where your LM Studio server is running</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lm-studio-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="lm-studio-model-id-select" class="model-id-select" data-provider="lm_studio">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="lm-studio-model-id" class="model-id-input" placeholder="e.g., qwen/qwen3-vl-4b" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="lm_studio" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="lm-studio-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/ollama.png" alt="Ollama" style="width: 20px; height: 20px;">
+                                <span>Ollama</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="ollama-url">Server URL</label>
+                                <input type="text" id="ollama-url" placeholder="http://localhost:11434/api/chat">
+                                <small class="form-help">The URL where your Ollama server is running</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ollama-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="ollama-model-id-select" class="model-id-select" data-provider="ollama">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="ollama-model-id" class="model-id-input" placeholder="e.g., gemma3:4b" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="ollama" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="ollama-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div id="local-models-error" class="error-message" style="display: none;"></div>
+                        <div id="local-models-success" class="success-message" style="display: none;"></div>
+
+                        <button type="submit" class="btn-primary btn-sm">
+                            <i class="fas fa-save"></i> Save Local URL's & Model ID's
+                        </button>
+                    </form>
+                </div>
+
+                <div id="admin-settings-success" class="success-message" style="display: none;">Admin settings saved successfully!</div>
+                <div id="admin-settings-error" class="error-message" style="display: none;"></div>
+            </div>
+
+            <!-- Actions -->
+            <div class="profile-section">
+                <h2><i class="fas fa-link"></i> Quick Links</h2>
+                <button id="profile-link-btn" class="btn-secondary btn-sm" style="width: 100%; margin-bottom: 12px;">
+                    <i class="fas fa-user-cog"></i> Profile Page
+                </button>
+                <button id="back-to-chat-btn" class="btn-primary btn-sm" style="width: 100%;">
+                    <i class="fas fa-comments"></i> Back to Chat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/settings.js"></script>
+</body>
+</html>

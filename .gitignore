@@ -1,0 +1,84 @@
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+config.json
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+chat_history.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Flask
+instance/
+.webassets-cache
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# OS
+Thumbs.db
+
+# Uploaded files
+uploads/
+
+# ChromaDB vector store data
+data/
+
+# Installer output (large binaries)
+installer_output/
+
+# PyInstaller build artifacts
+build/simplyai/
+

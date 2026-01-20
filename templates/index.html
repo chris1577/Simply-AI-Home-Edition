@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>simply AI - Home</title>
+    <link rel="icon" href="static/images/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="/static/css/styles.css?v=4.3">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron:700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Prism.js for syntax highlighting with dual themes -->
+    <link id="prism-theme-light" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" disabled>
+    <link id="prism-theme-dark" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" data-manual></script>
+    <!-- Autoloader plugin - loads languages on demand -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <!-- KaTeX for fast and reliable math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <script src="/static/js/main.js?v=2.0"></script>
+    <script src="/static/js/index-greeting.js"></script>
+    <script>
+        // Model IDs from backend configuration
+        window.MODEL_IDS = JSON.parse('{{ model_ids | tojson | safe }}');
+    </script>
+</head>
+<body>
+    <!-- Rotation prompt for mobile landscape -->
+    <div id="rotation-prompt">
+        <div class="rotation-prompt-content">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            <h2>Please Rotate Your Device</h2>
+            <p>This app works best in portrait mode</p>
+            <div class="rotation-icon">
+                <i class="fa-solid fa-arrows-rotate"></i>
+            </div>
+        </div>
+    </div>
+
+    <div id="sidebar-overlay"></div>
+    <div id="main-container">
+        <div id="sidebar">
+            <div id="sidebar-header">
+                <img src="/static/images/simply_AI_white.png" alt="Simply AI" class="sidebar-logo">
+                <button id="close-sidebar-btn" title="Close sidebar">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+            </div>
+            <div id="chat-history-header" class="chat-history-header">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span>Chat History</span>
+                <i class="fa-solid fa-chevron-down chat-history-toggle-icon"></i>
+            </div>
+            <div id="session-list">
+        </div>
+        <template id="session-item-template">
+            <div class="session-item">
+                <div class="session-name-wrapper">
+                    <div class="session-name"></div>
+                    <input type="text" class="session-name-input" style="display: none;">
+                </div>
+                <div class="session-actions">
+                    <button class="session-menu-btn" title="More options">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    <div class="session-menu-dropdown">
+                        <button class="session-menu-item edit-chat-btn">
+                            <i class="fa-solid fa-pen"></i>
+                            <span>Rename</span>
+                        </button>
+                        <button class="session-menu-item export-chat-btn">
+                            <i class="fa-solid fa-download"></i>
+                            <span>Export</span>
+                        </button>
+                        <button class="session-menu-item delete-chat-btn">
+                            <i class="fa-solid fa-trash"></i>
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </template>
+            <div id="sidebar-footer">
+                <button id="settings-btn" class="sidebar-footer-btn" title="Settings">
+                    <i class="fa-solid fa-cog"></i>
+                    <span>Settings</span>
+                </button>
+                <button id="profile-btn" class="sidebar-footer-btn" title="Profile">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Profile</span>
+                </button>
+                <button id="logout-btn" class="sidebar-footer-btn" title="Logout">
+                    <i class="fa-solid fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+        <div id="chat-container">
+            <div id="chat-header">
+                <div class="header-buttons-left">
+                    <button id="menu-btn" title="Toggle sidebar">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+                <div class="header-center" id="model-selector-header">
+                    <div class="header-model-separator">
+                        <div class="model-name-row">
+                            <img id="current-model-icon" src="/static/images/claude.png" alt="Model Icon" class="header-model-icon">
+                            <h3 id="current-model-display">Select Model</h3>
+                        </div>
+                        <h4 id="loaded-model-id" style="padding-left: 10px;"></h4>
+                    </div>
+                    <i class="fa-solid fa-chevron-down header-dropdown-icon"></i>
+                    <!-- Dropdown menu for model selection -->
+                    <div id="header-model-dropdown" class="header-dropdown-menu">
+                        <div class="header-dropdown-section">
+                            <div class="header-dropdown-label">
+                                <i class="fa-solid fa-microchip"></i>
+                                <span>Select Model</span>
+                            </div>
+                            <div class="header-model-list">
+                                <div class="header-model-item" data-model="anthropic" data-provider="api">
+                                    <img src="/static/images/claude.png" alt="Claude" class="header-model-item-icon">
+                                    <span>Claude</span>
+                                    <span class="model-badge api">API</span>
+                                </div>
+                                <div class="header-model-item" data-model="openai" data-provider="api">
+                                    <img src="/static/images/chatgpt.png" alt="ChatGPT" class="header-model-item-icon chatgpt-icon">
+                                    <span>ChatGPT</span>
+                                    <span class="model-badge api">API</span>
+                                </div>
+                                <div class="header-model-item" data-model="gemini" data-provider="api">
+                                    <img src="/static/images/gemini.png" alt="Gemini" class="header-model-item-icon">
+                                    <span>Gemini</span>
+                                    <span class="model-badge api">API</span>
+                                </div>
+                                <div class="header-model-item" data-model="xai" data-provider="api">
+                                    <img src="/static/images/grok.png" alt="Grok" class="header-model-item-icon grok-icon">
+                                    <span>Grok</span>
+                                    <span class="model-badge api">API</span>
+                                </div>
+                                <div class="header-model-item" data-model="simply" data-provider="lm_studio">
+                                    <img src="/static/images/lmstudio.png" alt="LM Studio" class="header-model-item-icon">
+                                    <span>LM Studio</span>
+                                    <span class="model-badge local">Local</span>
+                                </div>
+                                <div class="header-model-item" data-model="simply" data-provider="ollama">
+                                    <img src="/static/images/ollama.png" alt="Ollama" class="header-model-item-icon">
+                                    <span>Ollama</span>
+                                    <span class="model-badge local">Local</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-buttons-right">
+                    <!-- Placeholder to balance the left side and keep center element centered -->
+                </div>
+            </div>
+            <div id="chat-messages">
+                <!-- Welcome Message Component -->
+                <div id="welcome-message" class="welcome-container">
+                    <div class="welcome-content">
+                        <div class="welcome-header">
+                            <img src="/static/images/simply_AI_white.png" alt="Simply AI Logo" class="welcome-logo">
+                            {% if user_context.is_authenticated %}
+                                {% if user_context.is_new_user %}
+                                    <h1>Good day and welcome {{ (user_context.full_name or user_context.username) | capitalize }}!</h1>
+                                {% else %}
+                                    <h1>Good day, {{ (user_context.full_name or user_context.username) | capitalize }}!</h1>
+                                {% endif %}
+                            {% else %}
+                                <h1>Good day and welcome to simply AI</h1>
+                            {% endif %}
+                        </div>
+
+                        <p class="welcome-subtitle">Your private and secure chat interface powered by multiple AI providers</p>
+                        {% if user_context.is_new_user %}
+                        <div class="home-edition-badge">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Home Edition</span>
+                        </div>
+                        <div class="welcome-tips">
+                            <h3><i class="fa-solid fa-lightbulb"></i> Getting Started</h3>
+                            <div class="tips-grid">
+                                <div class="tip-card">
+                                    <div class="tip-icon">
+                                        <i class="fa-solid fa-microchip"></i>
+                                    </div>
+                                    <div class="tip-content">
+                                        <h4>Choose Your Model</h4>
+                                        <p>Click the model name in the header to select from Claude, ChatGPT, Gemini, Grok or local providers.</p>
+                                    </div>
+                                </div>
+
+                                <div class="tip-card">
+                                    <div class="tip-icon">
+                                        <i class="fa-solid fa-comments"></i>
+                                    </div>
+                                    <div class="tip-content">
+                                        <h4>Start Chatting</h4>
+                                        <p>Type your message in the input box below and click Send. Try the Prompt Improvement feature! <i class="fa-solid fa-wand-magic-sparkles"></i></p>
+                                    </div>
+                                </div>
+
+                                <div class="tip-card">
+                                    <div class="tip-icon">
+                                        <i class="fa-solid fa-clock-rotate-left"></i>
+                                    </div>
+                                    <div class="tip-content">
+                                        <h4>Access History</h4>
+                                        <p>View, rename, export chats or delete your chat history in the sidebar <i class="fa-solid fa-bars"></i></p>
+                                    </div>
+                                </div>
+
+                                <div class="tip-card">
+                                    <div class="tip-icon">
+                                        <i class="fa-solid fa-user-gear"></i>
+                                    </div>
+                                    <div class="tip-content">
+                                        <h4>Manage Settings</h4>
+                                        <p>Configure themes and preferences in Settings <i class="fa-solid fa-gear"></i> and manage your account on the Profile page.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- <div class="welcome-features">
+                            <div class="feature-badge">
+                                <i class="fa-solid fa-code"></i> Code Highlighting
+                            </div>
+                            <div class="feature-badge">
+                                <i class="fa-solid fa-square-root-alt"></i> Math Rendering
+                            </div>
+                            <div class="feature-badge">
+                                <i class="fa-solid fa-file-export"></i> Export Chats
+                            </div>
+                            <div class="feature-badge">
+                                <i class="fa-solid fa-shield-halved"></i> Secure & Private
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <!-- Scroll to bottom button -->
+            <button id="scroll-to-bottom-btn" title="Scroll to bottom" style="display: none;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+            <div id="chat-input-container">
+                <div id="input-wrapper">
+                    <!-- Attachment Preview Area -->
+                    <div id="attachment-preview-container" style="display: none;"></div>
+
+                    <!-- Two-row input layout -->
+                    <div id="input-box">
+                        <!-- Top Row: Text input -->
+                        <div id="input-text-row">
+                            <textarea id="chat-input" rows="1" placeholder="Simply ask anything..."></textarea>
+                        </div>
+                        <!-- Bottom Row: Buttons -->
+                        <div id="input-buttons-row">
+                            <div class="input-buttons-left">
+                                <button id="new-chat-btn" title="Start a new chat" class="input-icon-btn">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button id="attach-file-btn" title="Attach files (images or documents)" class="input-icon-btn">
+                                    <i class="fa-solid fa-paperclip"></i>
+                                </button>
+                                <button id="vision-toggle-btn" title="Enable vision for local models" class="input-icon-btn vision-btn" style="display: none;">
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                </button>
+                                <input type="file" id="file-input" multiple accept=".jpg,.jpeg,.png,.gif,.bmp,.webp,.pdf,.txt,.doc,.docx,.xls,.xlsx,.csv,.md" style="display: none;">
+                            </div>
+                            <!-- Context used counter -->
+                            <div id="total-tokens-display" class="token-counter-total" style="display: none;">
+                                <span class="token-label">Context used:</span>
+                                <span id="total-tokens-value">0</span> tokens
+                            </div>
+                            <div class="input-buttons-right">
+                                <button id="improve-prompt-btn" title="Improve your prompt with AI" class="input-send-btn improve-btn">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                </button>
+                                <button id="send-btn" title="Send message" class="input-send-btn">
+                                    <i class="fa-solid fa-arrow-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="delete-confirmation-modal" style="display: none;">
+        <div id="delete-confirmation-dialog">
+            <p>Are you sure you want to delete this chat?</p>
+            <div id="delete-confirmation-buttons">
+                <button id="confirm-delete-btn">Delete</button>
+                <button id="cancel-delete-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div id="save-confirmation-modal" style="display: none;">
+        <div id="save-confirmation-dialog">
+            <p>API key saved successfully!</p>
+            <button id="ok-btn">OK</button>
+        </div>
+    </div>
+
+    <!-- Improve Prompt Modal -->
+    <div id="improve-prompt-modal" style="display: none;">
+        <div id="improve-prompt-dialog">
+            <div class="improve-prompt-header">
+                <div class="improve-prompt-title">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <h2>Improve Prompt</h2>
+                </div>
+                <button id="improve-prompt-close-btn" class="improve-prompt-close" title="Close">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <div class="improve-prompt-body">
+                <div class="improve-prompt-section">
+                    <label for="original-prompt-input">Original Prompt</label>
+                    <textarea id="original-prompt-input" rows="4" placeholder="Enter your prompt here..."></textarea>
+                </div>
+                <div class="improve-prompt-section">
+                    <label for="improved-prompt-output">Improved Prompt</label>
+                    <textarea id="improved-prompt-output" rows="6" placeholder="AI-improved prompt will appear here..." readonly></textarea>
+                </div>
+            </div>
+            <div class="improve-prompt-footer">
+                <button id="generate-prompt-btn" class="improve-prompt-btn primary">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Generate</span>
+                </button>
+                <button id="use-prompt-btn" class="improve-prompt-btn success" disabled>
+                    <i class="fa-solid fa-check"></i>
+                    <span>Use Prompt</span>
+                </button>
+                <button id="cancel-prompt-btn" class="improve-prompt-btn secondary">
+                    <span>Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

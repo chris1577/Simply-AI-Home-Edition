@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - simply AI</title>
+    <link rel="icon" href="static/images/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="/static/images/simply_AI_white.png" alt="Simply AI Logo" class="auth-logo">
+                <h1>Sign In</h1>
+                <p>Welcome back! Please login to your account.</p>
+            </div>
+
+            <!-- Standard Login Form -->
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i> Username
+                    </label>
+                    <input type="text" id="username" name="username" required
+                           placeholder="Enter your username" autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" id="password" name="password" required
+                           placeholder="Enter your password" autocomplete="current-password">
+                </div>
+
+                <div id="error-message" class="error-message" style="display: none;"></div>
+                <div id="success-message" class="success-message" style="display: none;"></div>
+
+                <button type="submit" class="btn-primary" id="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+
+                <div class="auth-links">
+                    <span>Don't have an account?</span>
+                    <a href="/auth/register">Create an account</a>
+                </div>
+            </form>
+
+            <!-- 2FA Verification Form (hidden by default) -->
+            <form id="twofa-form" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label for="twofa-code">
+                        <i class="fas fa-shield-alt"></i> Two-Factor Authentication
+                    </label>
+                    <p class="form-help">Enter the 6-digit code from your authenticator app</p>
+                    <input type="text" id="twofa-code" name="code" required
+                           placeholder="000000" maxlength="6" pattern="[0-9]{6}"
+                           autocomplete="one-time-code" inputmode="numeric">
+                </div>
+
+                <div class="form-group-checkbox">
+                    <label>
+                        <input type="checkbox" id="use-backup-code" name="use_backup">
+                        <span>Use backup code instead</span>
+                    </label>
+                </div>
+
+                <div id="twofa-error-message" class="error-message" style="display: none;"></div>
+
+                <button type="submit" class="btn-primary" id="verify-2fa-btn">
+                    <i class="fas fa-check-circle"></i> Verify & Login
+                </button>
+
+                <button type="button" class="btn-secondary" id="back-to-login-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/js/login.js"></script>
+</body>
+</html>

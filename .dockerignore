@@ -1,0 +1,66 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv
+venv/
+ENV/
+env/
+.eggs/
+*.egg-info/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.claude/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Build artifacts
+build/
+dist/
+installer_output/
+*.spec
+
+# Documentation (not needed in container)
+docs/
+CLAUDE.md
+README.md
+*.md
+
+# Windows batch files
+bat/
+*.bat
+
+# Local data (mounted as volumes instead)
+instance/
+uploads/
+data/
+logs/
+
+# Environment files (use docker-compose environment instead)
+.env
+.env.*
+
+# Compiled Python
+run_compiled.py
+*.pyc
+
+# Temporary files
+*.tmp
+*.temp
+*.log

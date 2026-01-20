@@ -1,0 +1,1680 @@
+/* Authentication Pages Styles */
+
+/* Theme Variables - Matched with main app (styles.css) */
+:root {
+    /* Light Mode Colors */
+    --profile-bg: #f7fafc;
+    --profile-card-bg: #ffffff;
+    --profile-text-primary: #1a202c;
+    --profile-text-secondary: #4a5568;
+    --profile-text-tertiary: #718096;
+    --profile-border: #cbd5e0;
+    --profile-border-light: #e2e8f0;
+    --profile-input-bg: #ffffff;
+    --profile-input-focus-bg: #ffffff;
+    --profile-hover-bg: #e8edf3;
+    --profile-section-bg: #f7fafc;
+}
+
+/* Dark Mode Colors - Matched with main app (styles.css) */
+[data-theme="dark"] {
+    --profile-bg: #23272f;
+    --profile-card-bg: #2d323b;
+    --profile-text-primary: #ececec;
+    --profile-text-secondary: #f3f4f6;
+    --profile-text-tertiary: #a0aec0;
+    --profile-border: #363b44;
+    --profile-border-light: #505664;
+    --profile-input-bg: #181c23;
+    --profile-input-focus-bg: #2d323b;
+    --profile-hover-bg: #363b44;
+    --profile-section-bg: #181c23;
+}
+
+/* Ensure html element also has the background for full coverage on scroll */
+html:has(body.auth-page) {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Reset margin for auth page body */
+body.auth-page {
+    margin: 0;
+}
+
+.auth-page {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 450px;
+}
+
+.auth-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    backdrop-filter: blur(10px);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-logo {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+    filter: brightness(0) invert(0);
+}
+
+.auth-header h1 {
+    color: #2d3748;
+    font-size: 32px;
+    font-weight: 400;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+.auth-header p {
+    color: #718096;
+    font-size: 14px;
+    margin: 0;
+}
+
+.auth-form {
+    margin-top: 30px;
+}
+
+.auth-form img.provider-icon {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: #2d3748;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.form-group label i {
+    color: #1e40af;
+    margin-right: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #2d3748;
+    background: white;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #1e40af;
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.form-group input::placeholder {
+    color: #a0aec0;
+}
+
+/* Normalize date input styling for consistent appearance across browsers */
+.form-group input[type="date"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    min-height: 48px;
+    line-height: normal;
+}
+
+/* iOS Safari specific fixes for date input */
+@supports (-webkit-touch-callout: none) {
+    .form-group input[type="date"] {
+        min-height: 48px;
+        padding: 12px 16px;
+    }
+}
+
+.form-help {
+    display: block;
+    font-size: 12px;
+    color: #718096;
+    margin-top: 4px;
+}
+
+.form-group-checkbox {
+    margin-bottom: 20px;
+}
+
+.form-group-checkbox label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #4a5568;
+    font-size: 14px;
+}
+
+.form-group-checkbox input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+/* Password Info Button */
+.password-info-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 6px;
+    cursor: pointer;
+    color: #1e40af;
+    font-size: 14px;
+    vertical-align: middle;
+    transition: color 0.2s ease;
+}
+
+.password-info-btn:hover {
+    color: #1e3a8a;
+}
+
+/* Password Requirements Popup */
+.password-requirements-popup {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    padding: 12px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+}
+
+.password-requirements-popup.show {
+    display: block;
+    animation: popupFadeIn 0.2s ease;
+}
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.popup-arrow {
+    position: absolute;
+    top: -6px;
+    left: 85px;
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border-left: 1px solid #e2e8f0;
+    border-top: 1px solid #e2e8f0;
+    transform: rotate(45deg);
+}
+
+.password-requirements-popup p {
+    margin: 0 0 8px 0;
+    font-size: 13px;
+    color: #2d3748;
+}
+
+.password-requirements-popup ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.password-requirements-popup li {
+    font-size: 12px;
+    color: #718096;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.password-requirements-popup li:last-child {
+    margin-bottom: 0;
+}
+
+.password-requirements-popup li i {
+    margin-right: 8px;
+    font-size: 8px;
+    color: #cbd5e0;
+}
+
+.password-requirements-popup li.requirement-met {
+    color: #48bb78;
+}
+
+.password-requirements-popup li.requirement-met i {
+    color: #48bb78;
+}
+
+/* Make password form-group position relative for popup positioning */
+.form-group:has(#password) {
+    position: relative;
+}
+
+.error-message {
+    background: #fed7d7;
+    color: #c53030;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    border-left: 3px solid #c53030;
+}
+
+.error-message ul {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+}
+
+.error-message li {
+    margin: 4px 0;
+}
+
+.success-message {
+    background: #c6f6d5;
+    color: #22543d;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    border-left: 3px solid #38a169;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.4);
+}
+
+.btn-primary:hover:not(:disabled) {
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.4);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-primary i {
+    margin-right: 8px;
+}
+
+.btn-secondary {
+    width: 100%;
+    padding: 12px;
+    background: var(--profile-card-bg, white);
+    color: var(--profile-text-primary, #4a5568);
+    border: 2px solid var(--profile-border, #e2e8f0);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 12px;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: var(--profile-hover-bg, #f7fafc);
+    border-color: var(--profile-border-light, #cbd5e0);
+}
+
+.btn-secondary i {
+    margin-right: 8px;
+}
+
+/* Dark mode adjustments for secondary buttons */
+[data-theme="dark"] .btn-secondary {
+    background: var(--profile-section-bg);
+    color: var(--profile-text-primary);
+    border-color: var(--profile-border);
+}
+
+[data-theme="dark"] .btn-secondary:hover:not(:disabled) {
+    background: var(--profile-hover-bg);
+    border-color: var(--profile-border-light);
+}
+
+.auth-links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #718096;
+}
+
+.auth-links a {
+    color: #1e40af;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.auth-links a:hover {
+    color: #1e3a8a;
+    text-decoration: underline;
+}
+
+.auth-links span {
+    margin: 0 8px;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .auth-card {
+        padding: 30px 20px;
+    }
+
+    .auth-header h1 {
+        font-size: 24px;
+    }
+
+    .auth-logo {
+        width: 150px;
+    }
+
+    /* Ensure date input matches other inputs on mobile */
+    .form-group input[type="date"] {
+        width: 100%;
+        min-height: 48px;
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+}
+
+/* User Profile/Settings Styles */
+/* Reset and isolate profile page from main app styles */
+body.profile-page-body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: var(--profile-bg) !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    transition: background-color 0.3s ease;
+}
+
+/* Top navigation bar */
+.profile-top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--profile-card-bg);
+    border-bottom: 1px solid var(--profile-border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .profile-top-nav {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.profile-top-nav-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-page-title {
+    margin: 0;
+    font-size: 18px;
+    color: var(--profile-text-primary);
+    font-weight: 600;
+}
+
+.profile-page-title i {
+    color: #1e40af;
+    margin-right: 8px;
+}
+
+.profile-back-btn {
+    width: auto !important;
+    margin: 0 !important;
+}
+
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 24px 80px 24px;
+    min-height: 100vh;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding: 40px 32px;
+    background: var(--profile-card-bg);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--profile-border);
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .profile-header {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 56px;
+    color: white;
+    box-shadow: 0 8px 24px rgba(30, 64, 175, 0.2);
+}
+
+.profile-header h1 {
+    margin: 16px 0 8px 0;
+    color: var(--profile-text-primary);
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.profile-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.profile-section {
+    background: var(--profile-card-bg);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--profile-border);
+    transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .profile-section {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+.profile-section h2 {
+    font-size: 20px;
+    color: var(--profile-text-primary);
+    margin: 0 0 24px 0;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--profile-border-light);
+}
+
+.profile-section h2 i {
+    margin-right: 12px;
+    color: #1e40af;
+    font-size: 22px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 24px 16px 60px 16px;
+    }
+
+    .profile-header {
+        padding: 28px 20px;
+        margin-bottom: 32px;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        font-size: 48px;
+    }
+
+    .profile-header h1 {
+        font-size: 26px;
+    }
+
+    .profile-section {
+        padding: 24px 20px;
+    }
+
+    .profile-section h2 {
+        font-size: 18px;
+    }
+
+    .profile-top-nav-content {
+        padding: 12px 16px;
+    }
+
+    .profile-page-title {
+        font-size: 16px;
+    }
+
+    .profile-back-btn {
+        font-size: 13px;
+        padding: 8px 16px !important;
+    }
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--profile-border);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--profile-text-secondary);
+}
+
+.info-value {
+    color: var(--profile-text-secondary);
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-success {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.badge-warning {
+    background: #feebc8;
+    color: #7c2d12;
+}
+
+.badge-danger {
+    background: #fed7d7;
+    color: #742a2a;
+}
+
+.badge-info {
+    background: #bee3f8;
+    color: #2c5282;
+}
+
+.badge-secondary {
+    background: #e2e8f0;
+    color: #2d3748;
+}
+
+/* Age Group Badges for Child Safety */
+.badge-child {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+.badge-child i {
+    margin-right: 4px;
+}
+
+.badge-teen {
+    background: #ffedd5;
+    color: #9a3412;
+    border: 1px solid #fdba74;
+}
+
+.badge-teen i {
+    margin-right: 4px;
+}
+
+.badge-adult {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+.badge-adult i {
+    margin-right: 4px;
+}
+
+/* Dark mode adjustments for age badges */
+[data-theme="dark"] .badge-child {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+[data-theme="dark"] .badge-teen {
+    background: #ffedd5;
+    color: #9a3412;
+    border: 1px solid #fdba74;
+}
+
+[data-theme="dark"] .badge-adult {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+.qr-code-container {
+    text-align: center;
+    padding: 20px;
+    background: var(--profile-section-bg);
+    border-radius: 8px;
+    margin: 20px 0;
+    transition: background-color 0.3s ease;
+}
+
+.qr-code-container img {
+    max-width: 250px;
+    border-radius: 8px;
+}
+
+[data-theme="dark"] .qr-code-container img {
+    background: white;
+    padding: 16px;
+}
+
+.backup-codes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.backup-code {
+    background: var(--profile-section-bg);
+    padding: 12px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid var(--profile-border);
+    color: var(--profile-text-primary);
+    transition: all 0.3s ease;
+}
+
+.session-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.session-item {
+    padding: 16px;
+    background: var(--profile-section-bg);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.session-info {
+    flex: 1;
+}
+
+.session-device {
+    font-weight: 600;
+    color: var(--profile-text-primary);
+    margin-bottom: 4px;
+}
+
+.session-details {
+    font-size: 12px;
+    color: var(--profile-text-secondary);
+}
+
+.btn-danger {
+    background: #64748b;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+    background: #475569;
+}
+
+.btn-sm {
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-xs {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Extra small buttons should not be full width */
+.profile-section .btn-xs {
+    width: auto !important;
+    flex: 0 0 auto !important;
+}
+
+/* Icon-only buttons (like delete API key) - center the icon */
+.profile-section .btn-xs i:only-child {
+    margin-right: 0;
+}
+
+/* Profile page action buttons - ensure consistency */
+.profile-section .btn-primary,
+.profile-section .btn-secondary,
+.profile-section .btn-danger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+    box-sizing: border-box;
+    border-width: 2px;
+    border-style: solid;
+}
+
+.profile-section .btn-primary i,
+.profile-section .btn-secondary i,
+.profile-section .btn-danger i {
+    margin-right: 8px;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+/* Enhanced secondary button style for profile page - outline variant */
+.profile-section .btn-secondary {
+    background: transparent;
+    color: var(--profile-text-primary);
+    border: 2px solid var(--profile-border-light);
+    box-shadow: none;
+}
+
+.profile-section .btn-secondary:hover:not(:disabled) {
+    background: var(--profile-hover-bg);
+    border-color: #1e40af;
+    color: #1e40af;
+}
+
+[data-theme="dark"] .profile-section .btn-secondary:hover:not(:disabled) {
+    background: var(--profile-hover-bg);
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+/* Special styling for logout button - subtle danger indication */
+.profile-section #logout-btn,
+.profile-section #logout-all-btn {
+    border-color: #fca5a5;
+    color: #dc2626;
+}
+
+.profile-section #logout-btn:hover,
+.profile-section #logout-all-btn:hover {
+    background: #fef2f2;
+    border-color: #ef4444;
+    color: #dc2626;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.15);
+}
+
+[data-theme="dark"] .profile-section #logout-btn,
+[data-theme="dark"] .profile-section #logout-all-btn {
+    border-color: #7f1d1d;
+    color: #fca5a5;
+}
+
+[data-theme="dark"] .profile-section #logout-btn:hover,
+[data-theme="dark"] .profile-section #logout-all-btn:hover {
+    background: #450a0a;
+    border-color: #991b1b;
+    color: #fca5a5;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+
+/* Ensure all profile buttons have consistent padding and font-size */
+.profile-section .btn-primary,
+.profile-section .btn-secondary {
+    padding: 12px 20px;
+    font-size: 14px;
+}
+
+.profile-section .btn-danger {
+    padding: 12px 20px;
+    font-size: 14px;
+}
+
+/* Standalone buttons - full width and aligned */
+.profile-section > button,
+.profile-section button[style*="width: 100%"] {
+    width: 100% !important;
+}
+
+/* Buttons in flex containers - allow flex sizing */
+.profile-section div[style*="display: flex"] .btn-primary,
+.profile-section div[style*="display: flex"] .btn-secondary,
+.profile-section div[style*="display: flex"] .btn-danger,
+.profile-section div[style*="display:flex"] .btn-primary,
+.profile-section div[style*="display:flex"] .btn-secondary,
+.profile-section div[style*="display:flex"] .btn-danger {
+    width: auto !important;
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* Spacing between stacked buttons */
+.profile-section button[style*="margin-bottom: 12px"] {
+    margin-bottom: 12px !important;
+}
+
+/* Form buttons - ensure proper alignment */
+.profile-section .auth-form .btn-primary,
+.profile-section .auth-form .btn-secondary,
+.profile-section .auth-form .btn-danger {
+    width: 100%;
+}
+
+/* Form buttons in flex containers override */
+.profile-section .auth-form div[style*="display: flex"] .btn-primary,
+.profile-section .auth-form div[style*="display: flex"] .btn-secondary,
+.profile-section .auth-form div[style*="display: flex"] .btn-danger,
+.profile-section .auth-form div[style*="display:flex"] .btn-primary,
+.profile-section .auth-form div[style*="display:flex"] .btn-secondary,
+.profile-section .auth-form div[style*="display:flex"] .btn-danger {
+    width: auto !important;
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* Buttons within nested divs (not in flex) should be full width */
+.profile-section > div button:not([style*="display: none"]),
+.profile-section .auth-form > button {
+    width: 100%;
+}
+
+/* Flex button containers - ensure proper layout */
+.profile-section div[style*="display: flex"][style*="gap"] {
+    display: flex !important;
+    gap: 12px !important;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+/* Ensure flex buttons have equal width when wrapped */
+.profile-section div[style*="display: flex"][style*="gap"] .btn-primary,
+.profile-section div[style*="display: flex"][style*="gap"] .btn-secondary,
+.profile-section div[style*="display:flex"][style*="gap"] .btn-primary,
+.profile-section div[style*="display:flex"][style*="gap"] .btn-secondary {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* Enhanced form styling for profile page */
+.profile-section .form-group {
+    margin-bottom: 20px;
+}
+
+.profile-section .form-group label {
+    display: block;
+    color: var(--profile-text-secondary);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.profile-section .form-group label i {
+    color: #1e40af;
+    margin-right: 6px;
+    width: 16px;
+    display: inline-block;
+}
+
+.profile-section .form-group input,
+.profile-section .form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--profile-border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--profile-text-primary);
+    background: var(--profile-input-bg);
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+/* Ensure better contrast for input text in dark mode */
+[data-theme="dark"] .profile-section .form-group input,
+[data-theme="dark"] .profile-section .form-group select {
+    color: var(--profile-text-primary);
+}
+
+.profile-section .form-group input:focus,
+.profile-section .form-group select:focus {
+    outline: none;
+    border-color: #1e40af;
+    background: var(--profile-input-focus-bg);
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.profile-section .form-group input::placeholder {
+    color: var(--profile-text-tertiary);
+}
+
+/* Textarea styles for profile sections */
+.profile-section .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--profile-border);
+    border-radius: 8px;
+    font-size: 14px;
+    background: var(--profile-input-bg);
+    color: var(--profile-text-primary);
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    resize: vertical;
+    font-family:  'Courier New', Courier, monospace;
+    line-height: 1.5;
+}
+
+.profile-section .form-group textarea:focus {
+    outline: none;
+    border-color: #1e40af;
+    background: var(--profile-input-focus-bg);
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.profile-section .form-group textarea::placeholder {
+    color: var(--profile-text-tertiary);
+}
+
+/* Dark mode styles for textarea */
+[data-theme="dark"] .profile-section .form-group textarea {
+    background: var(--profile-input-bg);
+    border-color: var(--profile-border);
+    color: var(--profile-text-primary);
+}
+
+[data-theme="dark"] .profile-section .form-group textarea:focus {
+    border-color: #3b82f6;
+    background: var(--profile-input-focus-bg);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.profile-section .form-help {
+    display: block;
+    font-size: 13px;
+    color: var(--profile-text-secondary);
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+.profile-section .form-help a {
+    color: #1e40af;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.profile-section .form-help a:hover {
+    text-decoration: underline;
+}
+
+/* Improve section spacing for nested divs */
+.profile-section > div[style*="border"] {
+    border: 1px solid var(--profile-border) !important;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: var(--profile-section-bg);
+    transition: all 0.2s ease;
+}
+
+.profile-section > div[style*="border"]:hover {
+    background: var(--profile-hover-bg);
+    border-color: var(--profile-border-light) !important;
+}
+
+.profile-section > div[style*="border"] h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: var(--profile-text-primary);
+    display: flex;
+    align-items: center;
+}
+
+.profile-section > div[style*="border"] h3 i {
+    margin-right: 10px;
+    color: #1e40af;
+}
+
+/* Info items styling */
+.info-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--profile-border-light);
+}
+
+.info-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--profile-text-secondary);
+}
+
+.info-value {
+    font-size: 14px;
+    color: var(--profile-text-primary);
+    font-weight: 500;
+}
+
+/* Badge improvements */
+.badge {
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+}
+
+/* Button group spacing */
+.profile-section button + button {
+    margin-left: 10px;
+}
+
+/* Ensure all profile buttons have base styles */
+body.profile-page-body button {
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+body.profile-page-body button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Base link styles for profile page */
+body.profile-page-body a {
+    color: #1e40af;
+    text-decoration: none;
+}
+
+body.profile-page-body a:hover {
+    text-decoration: underline;
+}
+
+/* Additional profile page specificity */
+body.profile-page-body .profile-header h1 {
+    margin: 16px 0 8px 0;
+    color: var(--profile-text-primary);
+    font-size: 32px;
+    font-weight: 600;
+}
+
+body.profile-page-body .profile-header p {
+    color: var(--profile-text-secondary);
+    font-size: 16px;
+    margin: 8px 0 0 0;
+}
+
+/* Dark mode adjustments for inline styles */
+[data-theme="dark"] body.profile-page-body p[style*="color: #718096"],
+[data-theme="dark"] body.profile-page-body p[style*="color: #64748b"] {
+    color: var(--profile-text-secondary) !important;
+}
+
+[data-theme="dark"] body.profile-page-body h3[style*="color: #2d3748"] {
+    color: var(--profile-text-primary) !important;
+}
+
+[data-theme="dark"] body.profile-page-body small.form-help {
+    color: var(--profile-text-secondary) !important;
+}
+
+/* Code elements in dark mode */
+[data-theme="dark"] code {
+    background: var(--profile-section-bg);
+    color: var(--profile-text-primary);
+    border: 1px solid var(--profile-border);
+}
+
+/* Invert provider icons in dark mode for better visibility */
+[data-theme="dark"] .auth-form img.provider-icon {
+    filter: invert(1);
+}
+
+/* Toggle Setting Container */
+.toggle-setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.toggle-setting-info {
+    flex: 1;
+}
+
+.toggle-setting-title {
+    display: block;
+    font-weight: 600;
+    color: var(--profile-text-primary);
+    margin-bottom: 4px;
+}
+
+.toggle-setting-description {
+    display: block;
+    font-size: 13px;
+    color: var(--profile-text-secondary);
+}
+
+/* Toggle Switch Styles */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #cbd5e1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 26px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: linear-gradient(135deg, #1e40af, #2563eb);
+    box-shadow: 0 0 12px rgba(30, 64, 175, 0.3);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(22px);
+}
+
+.toggle-switch:hover .toggle-slider {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.toggle-switch input:checked:hover + .toggle-slider {
+    box-shadow: 0 0 12px rgba(30, 64, 175, 0.3), 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+/* Dark mode adjustments for toggle */
+[data-theme="dark"] .toggle-slider {
+    background: #475569;
+}
+
+[data-theme="dark"] .toggle-slider:before {
+    background: white;
+}
+
+/* Invert ChatGPT and Grok logos in dark mode for better visibility */
+[data-theme="dark"] .admin-model-item img[src*="chatgpt"],
+[data-theme="dark"] .admin-model-item img[src*="grok"] {
+    filter: invert(1);
+}
+
+/* Invert LM Studio logo in dark mode for better visibility */
+[data-theme="dark"] .toggle-setting img[src*="lms"],
+[data-theme="dark"] .toggle-setting-title img[src*="lms"] {
+    filter: invert(1);
+}
+
+/* User Management Table Styles */
+.users-table-wrapper {
+    overflow-x: auto;
+    margin-top: 16px;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.users-table thead tr {
+    background: var(--profile-section-bg);
+    border-bottom: 2px solid var(--profile-border-light);
+}
+
+.users-table th {
+    padding: 12px 8px;
+    text-align: left;
+    color: var(--profile-text-secondary);
+    font-weight: 600;
+}
+
+.users-table th.text-center {
+    text-align: center;
+}
+
+.users-table tbody tr {
+    border-bottom: 1px solid var(--profile-border-light);
+    transition: background-color 0.2s ease;
+}
+
+.users-table tbody tr:hover {
+    background: var(--profile-hover-bg);
+}
+
+.users-table td {
+    padding: 12px 8px;
+    color: var(--profile-text-secondary);
+}
+
+.users-table td.text-center {
+    text-align: center;
+}
+
+.users-table td strong {
+    color: var(--profile-text-primary);
+    font-weight: 600;
+}
+
+.user-inactive-badge {
+    color: #ef4444;
+    font-size: 11px;
+    margin-left: 6px;
+}
+
+.user-2fa-enabled {
+    color: #48bb78;
+}
+
+.user-2fa-disabled {
+    color: var(--profile-text-tertiary);
+    opacity: 0.5;
+}
+
+.users-table .badge {
+    font-size: 10px;
+    margin-right: 4px;
+}
+
+/* Empty state for users list */
+.users-empty-state {
+    text-align: center;
+    color: var(--profile-text-tertiary);
+    padding: 20px;
+    font-size: 14px;
+}
+
+/* ========================================
+   Custom Scrollbar Styles for Profile/Settings Pages
+   ======================================== */
+
+/* Main page scrollbar - Light mode */
+body.profile-page-body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body.profile-page-body::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+body.profile-page-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 5px;
+}
+
+body.profile-page-body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Main page scrollbar - Dark mode */
+[data-theme="dark"] body.profile-page-body::-webkit-scrollbar-track,
+body.profile-page-body[data-theme="dark"]::-webkit-scrollbar-track,
+html[data-theme="dark"] body.profile-page-body::-webkit-scrollbar-track {
+    background: #1e2128;
+}
+
+[data-theme="dark"] body.profile-page-body::-webkit-scrollbar-thumb,
+body.profile-page-body[data-theme="dark"]::-webkit-scrollbar-thumb,
+html[data-theme="dark"] body.profile-page-body::-webkit-scrollbar-thumb {
+    background: #3d4451;
+}
+
+[data-theme="dark"] body.profile-page-body::-webkit-scrollbar-thumb:hover,
+body.profile-page-body[data-theme="dark"]::-webkit-scrollbar-thumb:hover,
+html[data-theme="dark"] body.profile-page-body::-webkit-scrollbar-thumb:hover {
+    background: #525a6a;
+}
+
+/* Firefox scrollbar support for main page */
+body.profile-page-body {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+html[data-theme="dark"] body.profile-page-body {
+    scrollbar-color: #3d4451 #1e2128;
+}
+
+/* Textarea scrollbar - Light mode */
+.profile-section .form-group textarea::-webkit-scrollbar {
+    width: 8px;
+}
+
+.profile-section .form-group textarea::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.profile-section .form-group textarea::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.profile-section .form-group textarea::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Textarea scrollbar - Dark mode */
+[data-theme="dark"] .profile-section .form-group textarea::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .profile-section .form-group textarea::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .profile-section .form-group textarea::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Firefox scrollbar support for textareas */
+.profile-section .form-group textarea {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+[data-theme="dark"] .profile-section .form-group textarea {
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.2);
+}
+
+/* Use Default Button for textareas */
+.btn-use-default {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: auto !important;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #64748b;
+    background: rgba(241, 245, 249, 0.95);
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 1;
+}
+
+.btn-use-default:hover {
+    background: #f1f5f9;
+    color: #1e40af;
+    border-color: #1e40af;
+}
+
+.btn-use-default i {
+    font-size: 10px;
+}
+
+/* Dark mode for Use Default button */
+[data-theme="dark"] .btn-use-default {
+    color: #94a3b8;
+    background: rgba(30, 41, 59, 0.95);
+    border-color: #475569;
+}
+
+[data-theme="dark"] .btn-use-default:hover {
+    background: #1e293b;
+    color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+/* =============================================================================
+   Model ID Selector Component
+   ============================================================================= */
+
+.model-selector-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Override the .profile-section .form-group select width: 100% rule */
+.model-selector-wrapper .model-id-select,
+.model-selector-wrapper .model-id-input,
+.profile-section .form-group .model-selector-wrapper .model-id-select,
+.profile-section .form-group .model-selector-wrapper .model-id-input {
+    flex: 1;
+    min-width: 0;
+    width: auto !important;
+}
+
+.model-selector-wrapper .model-id-select,
+.profile-section .form-group .model-selector-wrapper .model-id-select {
+    padding: 12px 16px;
+    border: 2px solid var(--profile-border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--profile-text-primary);
+    background-color: var(--profile-input-bg);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718096' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    box-sizing: border-box;
+    height: 46px;
+}
+
+.model-selector-wrapper .model-id-select:focus,
+.profile-section .form-group .model-selector-wrapper .model-id-select:focus {
+    outline: none;
+    border-color: #1e40af;
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+    background-color: var(--profile-input-focus-bg);
+}
+
+.model-selector-wrapper .model-id-select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Text input styling when visible */
+.model-selector-wrapper .model-id-input,
+.profile-section .form-group .model-selector-wrapper .model-id-input {
+    padding: 12px 16px;
+    border: 2px solid var(--profile-border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--profile-text-primary);
+    background: var(--profile-input-bg);
+    box-sizing: border-box;
+    height: 46px;
+}
+
+.model-selector-wrapper .model-id-input:focus {
+    outline: none;
+    border-color: #1e40af;
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+    background: var(--profile-input-focus-bg);
+}
+
+.btn-refresh-models {
+    width: 46px !important;
+    height: 46px;
+    min-width: 46px !important;
+    padding: 0;
+    border: 2px solid var(--profile-border);
+    border-radius: 8px;
+    background: var(--profile-input-bg);
+    color: var(--profile-text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-refresh-models:hover {
+    border-color: #1e40af;
+    color: #1e40af;
+    background: var(--profile-hover-bg);
+}
+
+.btn-refresh-models:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-refresh-models.loading i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.model-selector-status {
+    font-size: 12px;
+    margin-top: 4px;
+    min-height: 16px;
+}
+
+.model-selector-status.loading {
+    color: #3b82f6;
+}
+
+.model-selector-status.error {
+    color: #ef4444;
+}
+
+.model-selector-status.success {
+    color: #22c55e;
+}
+
+/* Dark mode adjustments for model selector */
+[data-theme="dark"] .model-selector-wrapper .model-id-select,
+[data-theme="dark"] .profile-section .form-group .model-selector-wrapper .model-id-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a0aec0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-color: var(--profile-input-bg);
+    color: var(--profile-text-primary);
+}
+
+[data-theme="dark"] .model-selector-wrapper .model-id-input,
+[data-theme="dark"] .profile-section .form-group .model-selector-wrapper .model-id-input {
+    background: var(--profile-input-bg);
+    color: var(--profile-text-primary);
+}
+
+[data-theme="dark"] .btn-refresh-models:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+[data-theme="dark"] .model-selector-status.loading {
+    color: #60a5fa;
+}
+
+[data-theme="dark"] .model-selector-status.error {
+    color: #f87171;
+}
+
+[data-theme="dark"] .model-selector-status.success {
+    color: #4ade80;
+}
