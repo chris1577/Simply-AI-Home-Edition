@@ -921,33 +921,33 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // If model changed, automatically start a new chat to prevent contamination
-            // if (modelChanged) {
-            //     // Clear current session
-            //     currentSessionId = null;
-            //     localStorage.removeItem('session_id');
+            if (modelChanged) {
+                // Clear current session
+                currentSessionId = null;
+                localStorage.removeItem('session_id');
 
-            //     // Clear chat messages
-            //     chatMessages.innerHTML = '';
+                // Clear chat messages
+                chatMessages.innerHTML = '';
 
-            //     // Clear any pending attachments
-            //     clearAttachments();
+                // Clear any pending attachments
+                clearAttachments();
 
-            //     // Ensure welcome message is shown
-            //     ensureWelcomeMessage();
-            //     toggleWelcomeMessage();
+                // Ensure welcome message is shown
+                ensureWelcomeMessage();
+                toggleWelcomeMessage();
 
-            //     // Stop any ongoing generation
-            //     if (isBotTyping) {
-            //         setBotTyping(false);
-            //     }
+                // Stop any ongoing generation
+                if (isBotTyping) {
+                    setBotTyping(false);
+                }
 
-            //     // Refresh session list to deselect previous session
-            //     loadSessions();
+                // Refresh session list to deselect previous session
+                loadSessions();
 
-            //     // Scroll to top to show welcome message
-            //     chatMessages.scrollTop = 0;
-            //     window.scrollTo({ top: 0, behavior: 'smooth' });
-            // }
+                // Scroll to top to show welcome message
+                chatMessages.scrollTop = 0;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
 
             // Update vision toggle button visibility
             updateVisionToggleButton();

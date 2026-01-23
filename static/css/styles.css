@@ -2922,7 +2922,7 @@ pre:has(.code-language-label) {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 3rem 2rem 2rem 2rem;
+    padding: 2rem 2rem 1.5rem 2rem;
     width: 100%;
     max-width: 1000px; /* Match message max-width */
     box-sizing: border-box;
@@ -2948,19 +2948,19 @@ pre:has(.code-language-label) {
 }
 
 .welcome-header {
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
 }
 
 .welcome-logo {
     width: auto;
-    height: 80px;
-    max-width: 200px;
+    height: 75px;
+    max-width: 190px;
     margin-top: 0.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
+    border-radius: 18px;
+    padding: 0.45rem 0.95rem;
     box-shadow: 0 8px 24px rgba(30, 64, 175, 0.3),
                 0 4px 12px rgba(59, 130, 246, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -2977,9 +2977,9 @@ pre:has(.code-language-label) {
     align-items: center;
     gap: 0.5rem;
     background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-    padding: 0.5rem 1.25rem;
+    padding: 0.45rem 1.15rem;
     border-radius: 50px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3),
                 0 2px 6px rgba(59, 130, 246, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -3012,7 +3012,7 @@ pre:has(.code-language-label) {
 
 .welcome-header h1 {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    font-size: 2rem;
+    font-size: 1.85rem;
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
@@ -3022,23 +3022,23 @@ pre:has(.code-language-label) {
 }
 
 .welcome-subtitle {
-    font-size: 1.125rem;
+    font-size: 1.05rem;
     color: var(--text-secondary);
-    margin-bottom: 3rem;
+    margin-bottom: 1.75rem;
     font-weight: 400;
 }
 
 .welcome-tips {
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
     max-width: 100%;
     box-sizing: border-box;
 }
 
 .welcome-tips h3 {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3052,8 +3052,8 @@ pre:has(.code-language-label) {
 .tips-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-    margin-bottom: 2rem;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
@@ -3064,13 +3064,12 @@ pre:has(.code-language-label) {
 .tip-card {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color-light);
-    border-radius: 12px;
-    padding: 1.5rem;
+    border-radius: 11px;
+    padding: 1.15rem;
     text-align: left;
     transition: all 0.3s ease;
     cursor: default;
     box-sizing: border-box;
-    aspect-ratio: 1 / 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -3089,33 +3088,33 @@ pre:has(.code-language-label) {
 }
 
 .tip-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
     background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .tip-icon i {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     color: white;
 }
 
 .tip-card h4 {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.4rem 0;
 }
 
 .tip-card p {
-    font-size: 0.875rem;
+    font-size: 0.825rem;
     color: var(--text-secondary);
     margin: 0;
-    line-height: 1.5;
+    line-height: 1.45;
 }
 
 .welcome-cta {
