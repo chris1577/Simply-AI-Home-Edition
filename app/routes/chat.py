@@ -77,15 +77,19 @@ def _generate_distilled_context(user_msg, bot_msg, user_message_content: str, bo
         truncated_response = bot_response[:4000] if len(bot_response) > 4000 else bot_response
         truncated_user = user_message_content[:2000] if len(user_message_content) > 2000 else user_message_content
 
-        summarization_prompt = f"""Summarize the following exchange in the most concise way possible while preserving all key facts, decisions, and context. Be extremely brief - aim for 1-2 sentences each.
+        summarization_prompt = f"""Summarize the following conversation exchange. Be extremely brief - aim for 1-2 sentences each.
 
-User asked: {truncated_user}
+IMPORTANT: Write summaries as direct statements, NOT descriptions of what was said.
+- WRONG: "The user asked about the capital" or "The assistant explained that..."
+- CORRECT: "What is the capital of France?" or "The capital of France is Paris."
 
-Assistant responded: {truncated_response}
+The user's message: {truncated_user}
+
+The response given: {truncated_response}
 
 Provide two ultra-brief summaries in this exact format:
-USER: [1-2 sentence summary of user's question/request]
-ASSISTANT: [1-2 sentence summary of key points in response]"""
+USER: [Restate the user's question/request directly]
+ASSISTANT: [State the key information from the response directly, as facts]"""
 
         summary_result = AIService.get_response(
             messages=[{"role": "user", "content": summarization_prompt}],
