@@ -82,3 +82,20 @@ installer_output/
 # PyInstaller build artifacts
 build/simplyai/
 
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Security - certificates and keys
+*.pem
+*.key
+*.crt
+*.p12
+
+# Backup files
+*.bak
+*.backup
+
+# Node (if any JS tooling is added)
+node_modules/

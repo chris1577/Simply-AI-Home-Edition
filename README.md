@@ -1,6 +1,23 @@
 # Simply AI - Home Edition
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Flask](https://img.shields.io/badge/flask-3.x-green.svg)](https://flask.palletsprojects.com/)
+
 A unified chat interface for multiple AI providers (Gemini, OpenAI, Anthropic, xAI, LM Studio, Ollama). Designed for self-hosted personal/family use on a desktop or laptop, supporting up to 10 registered users.
+
+## Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [First-Time Configuration](#first-time-configuration)
+- [Environment Configuration](#environment-configuration)
+- [Data Storage](#data-storage)
+- [Troubleshooting](#troubleshooting)
+- [Security](#security-notes)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
 
@@ -14,17 +31,17 @@ A unified chat interface for multiple AI providers (Gemini, OpenAI, Anthropic, x
 
 ## Prerequisites
 
-### For Windows Setup (Method 1 & 2)
+### For Windows Setup
 - **Python 3.11** or higher installed and added to PATH
 - Windows 10/11
 
-### For Docker Setup (Method 3)
+### For Docker Setup
 - **Docker Desktop** installed and running
 - Windows 10/11, macOS, or Linux
 
 ## Installation
 
-Choose one of the three installation methods below:
+Choose one of the two installation methods below:
 
 ---
 
@@ -62,26 +79,7 @@ http://localhost:8080
 
 ---
 
-### Method 2: Windows Installer (Easiest)
-
-A standalone Windows installer is available for users who prefer a traditional installation experience.
-
-**Step 1: Run the Installer**
-
-Navigate to the `installer_output` folder and run:
-```
-SimplyAI-Setup-1.0.0.exe
-```
-
-Follow the on-screen instructions to complete the installation.
-
-**Step 2: Launch the Application**
-
-After installation, launch Simply AI from the Start Menu or desktop shortcut.
-
----
-
-### Method 3: Docker (Recommended for Production)
+### Method 2: Docker (Recommended for Production)
 
 Run the application in a Docker container for easier deployment and isolation.
 
@@ -169,7 +167,6 @@ From the admin Settings page, you can manage user accounts for family members (u
 | Setup Method | URL |
 |--------------|-----|
 | Windows (SETUP.bat) | `http://localhost:8080` |
-| Windows Installer | `http://localhost:8080` |
 | Docker | `http://localhost:8080` |
 
 ---
@@ -260,6 +257,14 @@ SETUP.bat
 - API keys are encrypted in the database
 - Enable 2FA for additional account security
 - The application is designed for local network use; do not expose to the internet without proper security measures
+
+For security vulnerability reporting, please see [SECURITY.md](SECURITY.md).
+
+---
+
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before submitting a pull request.
 
 ---
 
