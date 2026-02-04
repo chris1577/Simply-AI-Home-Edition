@@ -70,6 +70,240 @@
                     Configure system-wide settings and manage AI model availability (Super Admin Only).
                 </p>
 
+                <!-- System API Keys & Model ID's -->
+                <div style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
+                    <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--profile-text-primary);">
+                        <i class="fas fa-key" style="color: #1e40af; margin-right: 10px;"></i>
+                        System API Keys & Model ID's
+                    </h3>
+                    <p style="font-size: 13px; color: var(--profile-text-secondary); margin: 0 0 16px 0;">
+                        Configure system-wide AI provider API keys and model selections. These keys are shared by all users. API keys are stored encrypted in the database.
+                    </p>
+
+                    <form id="api-keys-form" class="auth-form">
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/google.png" alt="Google Gemini" class="provider-icon" style="width: 20px; height: 20px;">
+                                <span>Google Gemini</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="gemini-api-key">API Key</label>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="password" id="gemini-api-key" placeholder="Enter your Gemini API key" style="flex: 1;">
+                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="gemini" style="display: none; padding: 6px 10px; font-size: 12px;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <small class="form-help">Get your key from <a href="https://makersuite.google.com/app/apikey" target="_blank" style="color: #3b82f6;">Google AI Studio</a></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="gemini-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="gemini-model-id-select" class="model-id-select" data-provider="gemini">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="gemini-model-id" class="model-id-input" placeholder="e.g., gemini-2.5-flash" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="gemini" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="gemini-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/chatgpt.png" alt="OpenAI" class="provider-icon" style="width: 20px; height: 20px;">
+                                <span>OpenAI ChatGPT</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="openai-api-key">API Key</label>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="password" id="openai-api-key" placeholder="Enter your OpenAI API key" style="flex: 1;">
+                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="openai" style="display: none; padding: 6px 10px; font-size: 12px;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <small class="form-help">Get your key from <a href="https://platform.openai.com/api-keys" target="_blank" style="color: #3b82f6;">OpenAI Platform</a></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="openai-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="openai-model-id-select" class="model-id-select" data-provider="openai">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="openai-model-id" class="model-id-input" placeholder="e.g., gpt-5-mini-latest" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="openai" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="openai-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/anthropic.png" alt="Anthropic" class="provider-icon" style="width: 20px; height: 20px;">
+                                <span>Anthropic Claude</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="anthropic-api-key">API Key</label>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="password" id="anthropic-api-key" placeholder="Enter your Anthropic API key" style="flex: 1;">
+                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="anthropic" style="display: none; padding: 6px 10px; font-size: 12px;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <small class="form-help">Get your key from <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color: #3b82f6;">Anthropic Console</a></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="anthropic-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="anthropic-model-id-select" class="model-id-select" data-provider="anthropic">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="anthropic-model-id" class="model-id-input" placeholder="e.g., claude-3-5-haiku-latest" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="anthropic" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="anthropic-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/xai.png" alt="xAI" class="provider-icon" style="width: 20px; height: 20px;">
+                                <span>xAI Grok</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="xai-api-key">API Key</label>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="password" id="xai-api-key" placeholder="Enter your xAI API key" style="flex: 1;">
+                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="xai" style="display: none; padding: 6px 10px; font-size: 12px;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <small class="form-help">Get your key from <a href="https://console.x.ai/" target="_blank" style="color: #3b82f6;">xAI Console</a></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="xai-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="xai-model-id-select" class="model-id-select" data-provider="xai">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="xai-model-id" class="model-id-input" placeholder="e.g., grok-4-1-fast-non-reasoning-latest" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="xai" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="xai-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div id="api-keys-error" class="error-message" style="display: none;"></div>
+                        <div id="api-keys-success" class="success-message" style="display: none;"></div>
+
+                        <button type="submit" class="btn-primary btn-sm" style="width: 100%; margin-bottom: 12px;">
+                            <i class="fas fa-save"></i> Save API Keys & Model ID's
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Local URL's & Model ID's -->
+                <div style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
+                    <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--profile-text-primary);">
+                        <i class="fas fa-server" style="color: #1e40af; margin-right: 10px;"></i>
+                        Local URL's & Model ID's
+                    </h3>
+                    <p style="font-size: 13px; color: var(--profile-text-secondary); margin: 0 0 16px 0;">
+                        Configure connection settings for local AI models (LM Studio and Ollama).
+                    </p>
+
+                    <form id="local-models-form" class="auth-form">
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/lms.png" alt="LM Studio" class="provider-icon" style="width: 20px; height: 20px;">
+                                <span>LM Studio</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="lm-studio-url">Server URL</label>
+                                <input type="text" id="lm-studio-url" placeholder="http://localhost:1234/v1/chat/completions">
+                                <small class="form-help">The URL where your LM Studio server is running</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lm-studio-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="lm-studio-model-id-select" class="model-id-select" data-provider="lm_studio">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="lm-studio-model-id" class="model-id-input" placeholder="e.g., qwen/qwen3-vl-4b" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="lm_studio" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="lm-studio-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
+                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
+                                <img src="/static/images/ollama.png" alt="Ollama" style="width: 20px; height: 20px;">
+                                <span>Ollama</span>
+                            </h4>
+
+                            <div class="form-group">
+                                <label for="ollama-url">Server URL</label>
+                                <input type="text" id="ollama-url" placeholder="http://localhost:11434/api/chat">
+                                <small class="form-help">The URL where your Ollama server is running</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ollama-model-id">Model ID</label>
+                                <div class="model-selector-wrapper">
+                                    <select id="ollama-model-id-select" class="model-id-select" data-provider="ollama">
+                                        <option value="">-- Select a model --</option>
+                                        <option value="__custom__">Enter custom model ID...</option>
+                                    </select>
+                                    <input type="text" id="ollama-model-id" class="model-id-input" placeholder="e.g., gemma3:4b" style="display: none;">
+                                    <button type="button" class="btn-refresh-models" data-provider="ollama" title="Refresh model list">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="model-selector-status" id="ollama-model-status"></div>
+                                <small class="form-help">The ID of the specific model to use.</small>
+                            </div>
+                        </div>
+
+                        <div id="local-models-error" class="error-message" style="display: none;"></div>
+                        <div id="local-models-success" class="success-message" style="display: none;"></div>
+
+                        <button type="submit" class="btn-primary btn-sm">
+                            <i class="fas fa-save"></i> Save Local URL's & Model ID's
+                        </button>
+                    </form>
+                </div>
+
                 <!-- Security Settings -->
                 <div style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
                     <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 16px 0; color: var(--profile-text-primary);">
@@ -328,240 +562,6 @@
                             <span style="margin-left: 8px;">Loading models...</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- System API Keys & Model ID's -->
-                <div style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
-                    <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--profile-text-primary);">
-                        <i class="fas fa-key" style="color: #1e40af; margin-right: 10px;"></i>
-                        System API Keys & Model ID's
-                    </h3>
-                    <p style="font-size: 13px; color: var(--profile-text-secondary); margin: 0 0 16px 0;">
-                        Configure system-wide AI provider API keys and model selections. These keys are shared by all users. API keys are stored encrypted in the database.
-                    </p>
-
-                    <form id="api-keys-form" class="auth-form">
-                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
-                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
-                                <img src="/static/images/google.png" alt="Google Gemini" class="provider-icon" style="width: 20px; height: 20px;">
-                                <span>Google Gemini</span>
-                            </h4>
-
-                            <div class="form-group">
-                                <label for="gemini-api-key">API Key</label>
-                                <div style="display: flex; gap: 8px; align-items: center;">
-                                    <input type="password" id="gemini-api-key" placeholder="Enter your Gemini API key" style="flex: 1;">
-                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="gemini" style="display: none; padding: 6px 10px; font-size: 12px;">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                                <small class="form-help">Get your key from <a href="https://makersuite.google.com/app/apikey" target="_blank" style="color: #3b82f6;">Google AI Studio</a></small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="gemini-model-id">Model ID</label>
-                                <div class="model-selector-wrapper">
-                                    <select id="gemini-model-id-select" class="model-id-select" data-provider="gemini">
-                                        <option value="">-- Select a model --</option>
-                                        <option value="__custom__">Enter custom model ID...</option>
-                                    </select>
-                                    <input type="text" id="gemini-model-id" class="model-id-input" placeholder="e.g., gemini-2.5-flash" style="display: none;">
-                                    <button type="button" class="btn-refresh-models" data-provider="gemini" title="Refresh model list">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
-                                </div>
-                                <div class="model-selector-status" id="gemini-model-status"></div>
-                                <small class="form-help">The ID of the specific model to use.</small>
-                            </div>
-                        </div>
-
-                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
-                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
-                                <img src="/static/images/chatgpt.png" alt="OpenAI" class="provider-icon" style="width: 20px; height: 20px;">
-                                <span>OpenAI ChatGPT</span>
-                            </h4>
-
-                            <div class="form-group">
-                                <label for="openai-api-key">API Key</label>
-                                <div style="display: flex; gap: 8px; align-items: center;">
-                                    <input type="password" id="openai-api-key" placeholder="Enter your OpenAI API key" style="flex: 1;">
-                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="openai" style="display: none; padding: 6px 10px; font-size: 12px;">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                                <small class="form-help">Get your key from <a href="https://platform.openai.com/api-keys" target="_blank" style="color: #3b82f6;">OpenAI Platform</a></small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="openai-model-id">Model ID</label>
-                                <div class="model-selector-wrapper">
-                                    <select id="openai-model-id-select" class="model-id-select" data-provider="openai">
-                                        <option value="">-- Select a model --</option>
-                                        <option value="__custom__">Enter custom model ID...</option>
-                                    </select>
-                                    <input type="text" id="openai-model-id" class="model-id-input" placeholder="e.g., gpt-5-mini-latest" style="display: none;">
-                                    <button type="button" class="btn-refresh-models" data-provider="openai" title="Refresh model list">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
-                                </div>
-                                <div class="model-selector-status" id="openai-model-status"></div>
-                                <small class="form-help">The ID of the specific model to use.</small>
-                            </div>
-                        </div>
-
-                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
-                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
-                                <img src="/static/images/anthropic.png" alt="Anthropic" class="provider-icon" style="width: 20px; height: 20px;">
-                                <span>Anthropic Claude</span>
-                            </h4>
-
-                            <div class="form-group">
-                                <label for="anthropic-api-key">API Key</label>
-                                <div style="display: flex; gap: 8px; align-items: center;">
-                                    <input type="password" id="anthropic-api-key" placeholder="Enter your Anthropic API key" style="flex: 1;">
-                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="anthropic" style="display: none; padding: 6px 10px; font-size: 12px;">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                                <small class="form-help">Get your key from <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color: #3b82f6;">Anthropic Console</a></small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="anthropic-model-id">Model ID</label>
-                                <div class="model-selector-wrapper">
-                                    <select id="anthropic-model-id-select" class="model-id-select" data-provider="anthropic">
-                                        <option value="">-- Select a model --</option>
-                                        <option value="__custom__">Enter custom model ID...</option>
-                                    </select>
-                                    <input type="text" id="anthropic-model-id" class="model-id-input" placeholder="e.g., claude-3-5-haiku-latest" style="display: none;">
-                                    <button type="button" class="btn-refresh-models" data-provider="anthropic" title="Refresh model list">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
-                                </div>
-                                <div class="model-selector-status" id="anthropic-model-status"></div>
-                                <small class="form-help">The ID of the specific model to use.</small>
-                            </div>
-                        </div>
-
-                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
-                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
-                                <img src="/static/images/xai.png" alt="xAI" class="provider-icon" style="width: 20px; height: 20px;">
-                                <span>xAI Grok</span>
-                            </h4>
-
-                            <div class="form-group">
-                                <label for="xai-api-key">API Key</label>
-                                <div style="display: flex; gap: 8px; align-items: center;">
-                                    <input type="password" id="xai-api-key" placeholder="Enter your xAI API key" style="flex: 1;">
-                                    <button type="button" class="btn-danger btn-xs remove-api-key-btn" data-provider="xai" style="display: none; padding: 6px 10px; font-size: 12px;">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                                <small class="form-help">Get your key from <a href="https://console.x.ai/" target="_blank" style="color: #3b82f6;">xAI Console</a></small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="xai-model-id">Model ID</label>
-                                <div class="model-selector-wrapper">
-                                    <select id="xai-model-id-select" class="model-id-select" data-provider="xai">
-                                        <option value="">-- Select a model --</option>
-                                        <option value="__custom__">Enter custom model ID...</option>
-                                    </select>
-                                    <input type="text" id="xai-model-id" class="model-id-input" placeholder="e.g., grok-4-1-fast-non-reasoning-latest" style="display: none;">
-                                    <button type="button" class="btn-refresh-models" data-provider="xai" title="Refresh model list">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
-                                </div>
-                                <div class="model-selector-status" id="xai-model-status"></div>
-                                <small class="form-help">The ID of the specific model to use.</small>
-                            </div>
-                        </div>
-
-                        <div id="api-keys-error" class="error-message" style="display: none;"></div>
-                        <div id="api-keys-success" class="success-message" style="display: none;"></div>
-
-                        <button type="submit" class="btn-primary btn-sm" style="width: 100%; margin-bottom: 12px;">
-                            <i class="fas fa-save"></i> Save API Keys & Model ID's
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Local URL's & Model ID's -->
-                <div style="border: 1px solid var(--profile-border); border-radius: 10px; padding: 20px; margin-bottom: 20px; background: var(--profile-section-bg);">
-                    <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--profile-text-primary);">
-                        <i class="fas fa-server" style="color: #1e40af; margin-right: 10px;"></i>
-                        Local URL's & Model ID's
-                    </h3>
-                    <p style="font-size: 13px; color: var(--profile-text-secondary); margin: 0 0 16px 0;">
-                        Configure connection settings for local AI models (LM Studio and Ollama).
-                    </p>
-
-                    <form id="local-models-form" class="auth-form">
-                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
-                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
-                                <img src="/static/images/lms.png" alt="LM Studio" class="provider-icon" style="width: 20px; height: 20px;">
-                                <span>LM Studio</span>
-                            </h4>
-
-                            <div class="form-group">
-                                <label for="lm-studio-url">Server URL</label>
-                                <input type="text" id="lm-studio-url" placeholder="http://localhost:1234/v1/chat/completions">
-                                <small class="form-help">The URL where your LM Studio server is running</small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="lm-studio-model-id">Model ID</label>
-                                <div class="model-selector-wrapper">
-                                    <select id="lm-studio-model-id-select" class="model-id-select" data-provider="lm_studio">
-                                        <option value="">-- Select a model --</option>
-                                        <option value="__custom__">Enter custom model ID...</option>
-                                    </select>
-                                    <input type="text" id="lm-studio-model-id" class="model-id-input" placeholder="e.g., qwen/qwen3-vl-4b" style="display: none;">
-                                    <button type="button" class="btn-refresh-models" data-provider="lm_studio" title="Refresh model list">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
-                                </div>
-                                <div class="model-selector-status" id="lm-studio-model-status"></div>
-                                <small class="form-help">The ID of the specific model to use.</small>
-                            </div>
-                        </div>
-
-                        <div style="border: 1px solid var(--profile-border-light); border-radius: 8px; padding: 16px; margin-bottom: 16px; background: var(--profile-input-bg);">
-                            <h4 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: var(--profile-text-primary); display: flex; align-items: center; gap: 8px;">
-                                <img src="/static/images/ollama.png" alt="Ollama" style="width: 20px; height: 20px;">
-                                <span>Ollama</span>
-                            </h4>
-
-                            <div class="form-group">
-                                <label for="ollama-url">Server URL</label>
-                                <input type="text" id="ollama-url" placeholder="http://localhost:11434/api/chat">
-                                <small class="form-help">The URL where your Ollama server is running</small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="ollama-model-id">Model ID</label>
-                                <div class="model-selector-wrapper">
-                                    <select id="ollama-model-id-select" class="model-id-select" data-provider="ollama">
-                                        <option value="">-- Select a model --</option>
-                                        <option value="__custom__">Enter custom model ID...</option>
-                                    </select>
-                                    <input type="text" id="ollama-model-id" class="model-id-input" placeholder="e.g., gemma3:4b" style="display: none;">
-                                    <button type="button" class="btn-refresh-models" data-provider="ollama" title="Refresh model list">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
-                                </div>
-                                <div class="model-selector-status" id="ollama-model-status"></div>
-                                <small class="form-help">The ID of the specific model to use.</small>
-                            </div>
-                        </div>
-
-                        <div id="local-models-error" class="error-message" style="display: none;"></div>
-                        <div id="local-models-success" class="success-message" style="display: none;"></div>
-
-                        <button type="submit" class="btn-primary btn-sm">
-                            <i class="fas fa-save"></i> Save Local URL's & Model ID's
-                        </button>
-                    </form>
                 </div>
 
                 <div id="admin-settings-success" class="success-message" style="display: none;">Admin settings saved successfully!</div>

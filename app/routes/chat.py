@@ -73,8 +73,11 @@ def _generate_distilled_context(user_msg, bot_msg, user_message_content: str, bo
     from flask import current_app
 
     try:
+        # Strip thinking tags from bot response before summarization
+        cleaned_response = re.sub(r'<think>.*?</think>', '', bot_response, flags=re.DOTALL).strip()
+
         # Truncate very long responses to avoid token limits in summarization
-        truncated_response = bot_response[:4000] if len(bot_response) > 4000 else bot_response
+        truncated_response = cleaned_response[:4000] if len(cleaned_response) > 4000 else cleaned_response
         truncated_user = user_message_content[:2000] if len(user_message_content) > 2000 else user_message_content
 
         summarization_prompt = f"""Summarize the following conversation exchange. Be extremely brief - aim for 1-2 sentences each.
@@ -100,7 +103,8 @@ ASSISTANT: [State the key information from the response directly, as facts]"""
         )
 
         if summary_result.get('response'):
-            summary_text = summary_result['response']
+            # Strip any thinking tags from the summary response itself
+            summary_text = re.sub(r'<think>.*?</think>', '', summary_result['response'], flags=re.DOTALL).strip()
             user_summary, assistant_summary = _parse_distilled_summaries(summary_text)
 
             # Update messages with distilled content
@@ -1796,7 +1800,15 @@ def improve_prompt():
         model_provider = local_model_provider
 
     # System prompt for improving the user's prompt
-    system_prompt = """You are a prompt engineering expert. Your task is to improve the user's prompt to make it clearer, more specific, and more likely to get a high-quality response from an AI assistant.
+    system_prompt = """You are a prompt engineering expert. Your ONLY job is to rewrite and improve prompts that users give you. You must NEVER answer or respond to the content of the prompt itself.
+
+CRITICAL RULES:
+- You must OUTPUT ONLY the rewritten/improved version of the prompt
+- Do NOT answer the question in the prompt
+- Do NOT provide information about the topic in the prompt
+- Do NOT include explanations, headers, commentary, or preamble
+- Do NOT include markdown formatting like ### headers in your output
+- The user's prompt is a PROMPT TO BE REWRITTEN, not a question for you to answer
 
 Guidelines for improving prompts:
 1. Add clarity and specificity where the original is vague
@@ -1806,11 +1818,15 @@ Guidelines for improving prompts:
 5. Preserve the original intent and meaning
 6. Keep the improved prompt concise but comprehensive
 
-Respond ONLY with the improved prompt. Do not include explanations, headers, or any other text - just the improved prompt itself."""
+Example:
+- Input prompt: "why is the sky blue?"
+- Improved prompt: "Explain why the sky appears blue during the day. Include the scientific principles involved such as light scattering, and describe how different wavelengths of light interact with Earth's atmosphere. Keep the explanation accessible to someone without a physics background."
+
+Remember: Output ONLY the improved prompt text. Nothing else."""
 
     messages = [
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": f"Please improve this prompt:\n\n{original_prompt}"}
+        {"role": "user", "content": f"Rewrite and improve the following prompt (do NOT answer it, just improve it as a prompt):\n\n---\n{original_prompt}\n---"}
     ]
 
     try:
@@ -1826,7 +1842,8 @@ Respond ONLY with the improved prompt. Do not include explanations, headers, or 
         if result.get('error'):
             return jsonify({"error": result['error']}), 500
 
-        improved = result.get('response', '').strip()
+        # Strip thinking tags from reasoning models before returning
+        improved = re.sub(r'<think>.*?</think>', '', result.get('response', ''), flags=re.DOTALL).strip()
 
         return jsonify({
             "status": "success",
