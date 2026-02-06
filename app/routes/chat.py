@@ -169,7 +169,7 @@ def chat():
     else:
         # Create new chat session
         session_id = str(uuid.uuid4())
-        chat_name = " ".join(message_content.split()[:5]) if message_content else "New Chat"
+        chat_name = " ".join(message_content.split()[:10]) if message_content else "New Chat"
 
         # Create chat for authenticated user
         chat = Chat(

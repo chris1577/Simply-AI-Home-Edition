@@ -10,9 +10,9 @@
     --bg-secondary: #ffffff;
     --bg-tertiary: #e2e8f0;
     --bg-hover: #e8edf3;
-    --text-primary: #1a202c;
-    --text-secondary: #4a5568;
-    --text-tertiary: #718096;
+    --text-primary: #1d1d1f;
+    --text-secondary: #494f57;
+    --text-tertiary: #86868b;
     --border-color: #cbd5e0;
     --border-color-light: #e2e8f0;
     --accent-color: #1e40af;
@@ -30,9 +30,9 @@
     --bg-secondary: #2d323b;
     --bg-tertiary: #363b44;
     --bg-hover: rgba(255, 255, 255, 0.1);
-    --text-primary: #ececec;
-    --text-secondary: #f3f4f6;
-    --text-tertiary: #a0aec0;
+    --text-primary: #e8eaed;
+    --text-secondary: #9ca3af;
+    --text-tertiary: #6b7280;
     --border-color: #363b44;
     --border-color-light: #505664;
     --accent-color: #1e40af;
@@ -67,7 +67,7 @@ html {
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: var(--bg-primary);
     color: var(--text-primary);
     margin: 0;
@@ -80,6 +80,9 @@ body {
     justify-content: center;
     align-items: center;
     transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 /* Rotation Prompt - Hidden by default */
@@ -270,8 +273,10 @@ html[data-theme="dark"] .sidebar-logo {
 .chat-history-header span {
     flex: 1;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.75rem;
     color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .chat-history-toggle-icon {
@@ -332,8 +337,8 @@ html[data-theme="dark"] .sidebar-logo {
     border: none;
     border-left: 3px solid transparent;
     cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 500;
+    font-size: 0.875rem;
+    font-weight: 400;
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -414,9 +419,9 @@ html[data-theme="dark"] .sidebar-logo {
     overflow: hidden;
     text-overflow: ellipsis;
     color: var(--text-primary);
-    font-weight: 500;
-    font-size: 1rem;
-    line-height: 1.4;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.45;
 }
 
 .session-name-input {
@@ -427,8 +432,8 @@ html[data-theme="dark"] .sidebar-logo {
     color: var(--text-primary);
     border: 1px solid var(--accent-color);
     border-radius: 4px;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 0.875rem;
+    font-weight: 400;
     outline: none;
 }
 
@@ -507,7 +512,7 @@ html[data-theme="dark"] .sidebar-logo {
     display: flex;
     align-items: center;
     gap: 0.625rem;
-    font-size: 0.9rem;
+    font-size: 0.8125rem;
     transition: all 0.2s ease;
 }
 
@@ -820,10 +825,10 @@ html[data-theme="dark"] .sidebar-logo {
 }
 
 .name-tag-text {
-    font-size: 1.1rem;
+    font-size: 0.9375rem;
     font-weight: 600;
     color: var(--text-primary);
-    letter-spacing: -0.01em;
+    letter-spacing: 0.01em;
 }
 
 /* User message name tag alignment */
@@ -842,11 +847,11 @@ html[data-theme="dark"] .sidebar-logo {
 }
 
 .message-content {
-    padding: 0.3rem 0.6rem;
+    padding: 0.5rem 0.85rem;
     border-radius: 20px;
     max-width: 100%;
     position: relative;
-    line-height: 1.8;
+    line-height: 1.6;
     word-wrap: break-word;
     overflow-wrap: break-word;
     box-sizing: border-box;
@@ -855,8 +860,8 @@ html[data-theme="dark"] .sidebar-logo {
 
 /* Ensure paragraphs within messages have good spacing */
 .message-content p {
-    line-height: 1.8;
-    margin: 0.5rem 0;
+    line-height: 1.6;
+    margin: 0.6em 0;
 }
 
 .message-content p:first-child {
@@ -865,6 +870,91 @@ html[data-theme="dark"] .sidebar-logo {
 
 .message-content p:last-child {
     margin-bottom: 0;
+}
+
+/* Rich text typography inside messages */
+.message-content h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 1.25em 0 0.5em 0;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+.message-content h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 1.1em 0 0.4em 0;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+}
+
+.message-content h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 1em 0 0.35em 0;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+}
+
+.message-content h4,
+.message-content h5,
+.message-content h6 {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0.85em 0 0.3em 0;
+    color: var(--text-primary);
+}
+
+.message-content h1:first-child,
+.message-content h2:first-child,
+.message-content h3:first-child,
+.message-content h4:first-child {
+    margin-top: 0;
+}
+
+.message-content ul,
+.message-content ol {
+    margin: 0.5em 0;
+    padding-left: 1.5em;
+    line-height: 1.6;
+}
+
+.message-content li {
+    margin-bottom: 0.25em;
+}
+
+.message-content li:last-child {
+    margin-bottom: 0;
+}
+
+.message-content blockquote {
+    margin: 0.75em 0;
+    padding: 0.5em 1em;
+    border-left: 3px solid var(--accent-color);
+    color: var(--text-secondary);
+    background: transparent;
+    font-style: normal;
+}
+
+.message-content a {
+    color: var(--accent-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.message-content a:hover {
+    border-bottom-color: var(--accent-color);
+}
+
+.message-content strong {
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
 .message.user .message-content {
@@ -881,9 +971,9 @@ html[data-theme="dark"] .sidebar-logo {
 }
 
 .timestamp {
-    font-size: 0.7rem;
+    font-size: 0.6875rem;
     color: var(--text-tertiary);
-    opacity: 0.7;
+    opacity: 1;
 }
 
 /* Message footer with timestamp and delete button */
@@ -923,7 +1013,7 @@ html[data-theme="dark"] .sidebar-logo {
     gap: 0.25rem;
     font-size: 0.7rem;
     color: var(--text-tertiary);
-    opacity: 0.7;
+    opacity: 1;
 }
 
 .message-tokens .token-count {
@@ -943,7 +1033,7 @@ html[data-theme="dark"] .sidebar-logo {
     padding: 0.25rem 0.75rem;
     background: var(--bg-tertiary);
     border-radius: 12px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
 }
 
@@ -1365,7 +1455,7 @@ pre:has(.code-language-label) {
 }
 
 .thinking-label {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     color: var(--text-secondary);
     flex-grow: 1;
@@ -1409,7 +1499,7 @@ pre:has(.code-language-label) {
     border-top: 1px solid var(--border-color);
     background: var(--bg-secondary);
     color: var(--text-secondary);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     line-height: 1.6;
     transition: all 0.3s ease;
 }
@@ -1609,8 +1699,8 @@ pre:has(.code-language-label) {
 
 #chat-input {
     width: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
-    font-size: 1.05rem;
+    font-family: inherit;
+    font-size: 0.9375rem;
     padding: 0.5rem 0.75rem;
     border: none;
     background: transparent;
@@ -2141,7 +2231,7 @@ pre:has(.code-language-label) {
 #config-form {
     position: relative;
     background: var(--bg-secondary);
-    font-family: 'Inter', sans-serif;
+    font-family: inherit;
     padding: 2rem;
     border-radius: 12px;
     width: 100%;
@@ -2176,7 +2266,7 @@ pre:has(.code-language-label) {
 }
 
 .config-title {
-    font-family: 'Inter', sans-serif;
+    font-family: inherit;
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--text-primary);
@@ -2211,7 +2301,7 @@ pre:has(.code-language-label) {
     border-radius: 8px;
     background: var(--input-bg);
     color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
+    font-family: inherit;
     font-size: 0.9375rem;
     box-sizing: border-box;
     transition: all 0.2s ease;
@@ -2240,7 +2330,7 @@ pre:has(.code-language-label) {
     cursor: pointer;
     font-size: 0.9375rem;
     font-weight: 500;
-    font-family: 'Inter', sans-serif;
+    font-family: inherit;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
@@ -2422,8 +2512,8 @@ pre:has(.code-language-label) {
 
 .header-center h3 {
     margin: 0;
-    font-size: 1.4rem;
-    font-weight: 600;
+    font-size: 1.125rem;
+    font-weight: 500;
     color: var(--text-primary);
 }
 
@@ -2508,7 +2598,7 @@ pre:has(.code-language-label) {
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
-    font-size: 0.85rem;
+    font-size: 0.6875rem;
     font-weight: 600;
     color: var(--text-secondary);
     text-transform: uppercase;
@@ -2992,7 +3082,7 @@ pre:has(.code-language-label) {
 }
 
 .home-edition-badge span {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    font-family: inherit;
     font-size: 1.1rem;
     font-weight: 600;
     color: white;
@@ -3011,7 +3101,7 @@ pre:has(.code-language-label) {
 }
 
 .welcome-header h1 {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    font-family: inherit;
     font-size: 1.85rem;
     font-weight: 700;
     color: var(--text-primary);
@@ -3536,7 +3626,7 @@ pre:has(.code-language-label) {
 .improve-prompt-section textarea {
     width: 100%;
     padding: 0.875rem 1rem;
-    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+    font-family: inherit;
     font-size: 0.95rem;
     line-height: 1.5;
     color: var(--text-primary);
@@ -3688,6 +3778,29 @@ pre:has(.code-language-label) {
     .input-send-btn.improve-btn {
         width: 36px;
         height: 36px;
+    }
+}
+
+/* Mobile sidebar typography bump */
+@media (max-width: 768px) {
+    .session-name {
+        font-size: 0.9375rem;
+    }
+
+    .session-name-input {
+        font-size: 0.9375rem;
+    }
+
+    .sidebar-footer-btn {
+        font-size: 0.9375rem;
+    }
+
+    .chat-history-header span {
+        font-size: 0.8125rem;
+    }
+
+    .session-menu-item {
+        font-size: 0.875rem;
     }
 }
 
